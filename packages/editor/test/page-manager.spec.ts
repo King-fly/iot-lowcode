@@ -3,6 +3,7 @@ import {PageManager, Page} from '../src/page-manager';
 describe('page manager module', () => {
     it('page manager init', () => {        
         const PageManagerInstance = PageManager
+            // @ts-ignore
             .getInstance()
 
         const p1 = Page
@@ -15,6 +16,7 @@ describe('page manager module', () => {
             .create({name: 'cus3'});
 
         PageManagerInstance
+        // @ts-ignore
             .addPage(p1)
             .addPage(p2)
             .addPage(p3
@@ -22,8 +24,10 @@ describe('page manager module', () => {
                 .setSelected())
 
         PageManagerInstance
+        // @ts-ignore
             .delPage(p1);
 
+        // @ts-ignore
         expect(PageManagerInstance.pageList.length).toEqual(2);
     });
 });

@@ -120,7 +120,7 @@ class BaseDataSource {
 
     public static SRC_TYPE: string;
 
-    static create(options: BaseDataSourceOptions) {
+    static create(options: BaseDataSourceOptions = {type: ''}) {
         options.type = this.SRC_TYPE;
         return new this(options);
     }

@@ -83,6 +83,7 @@ class Designer {
     static start() {
         this.canvasEditor = CanvasEditorManager.getInstance(this.PAGE_LIST);
         this.pageSchema = Render.getInstance()
+            // @ts-ignore
             .fetchPageSchemaDSL(this.SCHEMA)
             .transformer();
 

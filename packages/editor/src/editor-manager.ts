@@ -81,6 +81,7 @@ export default class CanvasEditorManager {
     constructor(pageList: object) {
         this.eventManager = CanvasEditorManager.CanvasEditorEventManager;
         this.pageManager = PageManager.getInstance(pageList);
+        // @ts-ignore
         this.layerManager = CanvasEditorManager.layerManager;
 
         this.eventInit();
@@ -199,6 +200,7 @@ export default class CanvasEditorManager {
         });
     }
     add(data: object, cb = (_: any) => {}) {
+        // @ts-ignore
         const layer = Layer.create(data);
         this.layerManager.add(layer);
         cb(layer);
@@ -248,7 +250,9 @@ export default class CanvasEditorManager {
         this.pageSchema = Layer
             .create({ compType: 'page' })
                 .setFilter(DataSourceManager.FILTER_LIST)
+                // @ts-ignore
                 .setDataSource(CanvasEditorManager.dataSource.dataSourceList)
+                // @ts-ignore
                 .setChildren(this.layerManager.layerList);
         return this;
     }

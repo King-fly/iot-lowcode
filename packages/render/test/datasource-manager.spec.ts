@@ -18,6 +18,7 @@ describe('datasource module', () => {
         const dataSourceInstance = DataSourceManager.getInstance();
 
         dataSourceInstance
+            // @ts-ignore
             .add(
                 DataSourceManager.getDataSource('global').create({id: 'g1', name: 'result', value: '11'}),
                 DataSourceManager.getDataSource('global').create({name: 'data', value: {}}),
@@ -25,10 +26,13 @@ describe('datasource module', () => {
                 DataSourceManager.getDataSource('interface').create({method: 'get', params: {}, url: 'http://www.baidu.com'})
                     .addDataHandler(
                         FilterManager.getFilter('code')
+                        // @ts-ignore
                             .create({source: 'function (data) {return data.id;}'}),
                         FilterManager.getFilter('code')
+                        // @ts-ignore
                             .create({source: 'function () {}'}),
                         FilterManager.getFilter('biz')
+                        // @ts-ignore
                             .create(),
                     )
             )
@@ -38,9 +42,10 @@ describe('datasource module', () => {
                 value: 233,
                 describe: 'ggg'
             });
+            // @ts-ignore
         expect(dataSourceInstance.dataSourceList.length).toEqual(4);
         expect(DataSourceManager.FILTER_LIST.length).toEqual(3);
-
+        // @ts-ignore
         dataSourceInstance.dataSourceList.length = 0;
         DataSourceManager.FILTER_LIST.length = 0;
     });

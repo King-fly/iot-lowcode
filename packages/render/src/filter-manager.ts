@@ -2,25 +2,23 @@ import {Utils} from '@d/shared/src/utils'
 
 type BaseFilterOptions = {
     type: string;
-    id: string;
-    source: string;
+    id?: string;
+    source?: string;
 };
 
 class BaseFilter {
-
-    static FILTER_TYPE = 'base'
-
-    static create(options: BaseFilterOptions) {
-        options.type = this.FILTER_TYPE;
-        return new this(options)
-    }
-
     public type: string;
     public id: string;
     public options: {
         source?: string
     }
 
+    public static FILTER_TYPE: string = 'base'
+
+    static create(options: BaseFilterOptions = {type: ''}) {
+        options.type = this.FILTER_TYPE;
+        return new this(options)
+    }
     constructor(options: BaseFilterOptions) {
         this.type = options?.type;
         this.id = options.id ?? `filter_${this.type}_${Utils.genUUID.call(this)}`

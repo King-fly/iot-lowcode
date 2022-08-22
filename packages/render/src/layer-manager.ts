@@ -10,6 +10,14 @@ type LayerInput = {
     children?: [object]
 };
 
+type LayerItem = {
+    locked: boolean;
+    id: string;
+    selected?: boolean;
+    setSelected:(_: boolean) => LayerItem;
+    setLocked: (_: boolean) => void;
+}
+
 class Layer {
 
     static ComponentManager = ComponentManager;
@@ -23,36 +31,40 @@ class Layer {
 
     public compType: string;
     public id: string;
-    public children?: [object];
+    public children?: object[];
     public selected?: boolean;
     public locked?: boolean;
     public compInfo: {
-        interactions: {actions: {id: string}[], id: string}[];
+        interactions: {
+            actions: { id: string }[];
+            id: string
+        }[];
         name: string;
         props: {
             [key: string]: object
         }
+    } = {
+        interactions: [],
+        name: '',
+        props: {}
     };
     public filter?: object[];
     public dataSource?: object[];
 
-    constructor({
-        selected = false,
-        compType,
-        locked = false,
-        props,
-        id,
-        children
-    }: LayerInput) {
-        this.compType = compType ?? '';
-        this.id = id ?? `${this.compType}_${Layer.genUUID()}`;
-        this.init({props, selected, locked});
-        children && (this.children = children);
+    constructor(options: LayerInput) {
+        this.compType = options?.compType ?? '';
+        this.id = options?.id ?? `${this.compType}_${Layer.genUUID()}`;
+        this.init({
+            props: options?.props,
+            selected: options?.selected,
+            locked: options?.locked
+        });
+        options?.children && (this.children = options.children);
     }
     init({props, selected, locked}: {
-        props: object;
-        selected: boolean;
-        locked: boolean
+        props?: object;
+        selected?: boolean;
+        locked?: boolean
     }) {
         if (this.compType && this.compType !== 'page') {
             this.selected = locked === true ? false : selected;
@@ -62,7 +74,7 @@ class Layer {
                 .create({props});
         }
     }
-    setSelected(selected: boolean) {
+    setSelected(selected?: boolean) {
         if (this.locked) return this;
 
         this.selected = selected ?? true;
@@ -84,7 +96,7 @@ class Layer {
         this.dataSource = dataSource;
         return this;
     }
-    setChildren(children: [object]) {
+    setChildren(children: object[]) {
         this.children = children;
         return this;
     }
@@ -124,13 +136,6 @@ class Layer {
     }
 }
 
-type LayerItem = {
-    locked: boolean;
-    id: string;
-    selected?: boolean;
-    setSelected:(_: boolean) => LayerItem;
-    setLocked: (_: boolean) => void;
-}
 
 class LayerManager {
     static layerInstance: object;
@@ -144,7 +149,7 @@ class LayerManager {
     static create(...args: []) {
         return new this(...args);
     }
-    public layerList: LayerItem[];
+    public layerList: any[];
     constructor() {
         this.layerList = [];
     }
@@ -178,7 +183,7 @@ class LayerManager {
     }
     group() {
         if (this.layerList.filter(({selected}) => selected === true).length < 2) return this;
-        const children: LayerItem[] = [];
+        const children: object[] = [];
         let fIndex = -1;
 
         const next = (layerList: LayerItem[]) => {

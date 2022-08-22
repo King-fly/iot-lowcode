@@ -5,6 +5,7 @@ describe('plugin manager module', () => {
         
         PluginManager
             .getInstance()
+            // @ts-ignore
             .register(BasePlugin);
 
         expect(PluginManager.PLUGINS_MAP.BASE.pluginName).toEqual('BASE');;

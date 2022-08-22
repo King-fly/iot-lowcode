@@ -7,9 +7,11 @@ import {Interaction, Action, Condition} from '../src/interaction-manager';
 
 describe('render module', () => {
     it('render init', () => {
+        // @ts-ignore
         const canvasEditor = CanvasEditorManager.getInstance();
 
         canvasEditor
+        // @ts-ignore
             .add({
                 compType: 'group',
                 children: [
@@ -22,6 +24,7 @@ describe('render module', () => {
                             Layer.create({
                                 compType: 'button'
                             }),
+                            // @ts-ignore
                             Layer.create({
                                 compType: 'text'
                             })
@@ -44,6 +47,7 @@ describe('render module', () => {
             .selectById('text_test')
             .setSelected(true)
             .setPropDataSource('borderWidth', CanvasEditorManager.dataSource
+            // @ts-ignore
                 .add(DataSourceManager
                     .getDataSource('global')
                     .create({ id: 'g1', name: 'result', value: '1' }))
@@ -54,57 +58,74 @@ describe('render module', () => {
                     .getDataSource('interface').create({method: 'get', params: {}, url: 'http://www.baidu.com'})
                     .addDataHandler(
                         FilterManager.getFilter('code')
+                        // @ts-ignore
                             .create({source: 'function (data) {return data.id;}'}),
                         FilterManager.getFilter('code')
+                        // @ts-ignore
                             .create({source: 'function () {}'}),
-                        FilterManager.getFilter('biz')
-                            .create(),
+                        // @ts-ignore
+                        FilterManager.getFilter('biz').create(),
                     ))
                 .queryById('g1').value())
             .addInteraction(
+                // @ts-ignore
                 Interaction.create({id: 't1'})
                     .makeTrigger('click')
                         .addAction(
+                            // @ts-ignore
                             Action.create({type: 'showHide'}),
+                            // @ts-ignore
                             Action.create({type: 'showDisplay'})
                         )
                         .addCondition(
+                            // @ts-ignore
                             Condition.create({
                                 type: 'enum',
                                 field: 'current'
                             }),
+                            // @ts-ignore
                             Condition.create({
                                 type: 'list',
                                 field: 'current'
                             }))
                 ,
+                // @ts-ignore
                 Interaction.create({id: 't2'})
                     .makeTrigger('click')
                         .addAction(
+                            // @ts-ignore
                             Action.create({type: 'showHide'}),
+                            // @ts-ignore
                             Action.create({type: 'showDisplay'})
                         )
                         .addCondition(
+                            // @ts-ignore
                             Condition.create({
                                 type: 'enum',
                                 field: 'current'
                             }),
+                            // @ts-ignore
                             Condition.create({
                                 type: 'list',
                                 field: 'current'
                             })))
+        // @ts-ignore
         canvasEditor.autoSave();
+        // @ts-ignore
         const rawSchema = JSON.parse(JSON.stringify(canvasEditor.pageSchema));
 
         DataSourceManager.FILTER_LIST.length = 0;
+        // @ts-ignore
         DataSourceManager.getInstance().dataSourceList.length = 0;
 
         const schema = Render.create().fetchPageSchemaDSL(rawSchema).transformer();
         expect(rawSchema).toEqual(schema);
 
         expect(DataSourceManager.FILTER_LIST.length > 0).toEqual(true);
+        // @ts-ignore
         expect(DataSourceManager.getInstance().dataSourceList.length > 0).toEqual(true);
 
+        // @ts-ignore
         canvasEditor.layerManager.layerList.length = 0;
     });
 });

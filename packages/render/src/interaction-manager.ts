@@ -38,7 +38,7 @@ class Interaction {
     }
 }
 
-type ActionOptions = {
+export type ActionOptions = {
     id: string;
     type: string;
     options?: object;
@@ -59,7 +59,7 @@ class Action {
     }
 }
 
-type ConditionOptions = {
+export type ConditionOptions = {
     type: string;
     field: string;
     options: object;
