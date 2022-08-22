@@ -1,0 +1,175 @@
+[style-editing] {
+    display: flex;
+    flex-direction: column;
+}
+[style-editing] .edit-content {
+    border-bottom: solid 1px var(--border-silver-color);
+}
+
+[style-editing] .edit-content.align {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+[style-editing] .edit-content.align .align-item {
+    height: 36px;
+    width: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+[style-editing] .edit-content.align .align-item > div {
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+}
+[style-editing] .edit-content.align .align-item .align-left {
+    background: center url(/assets/align_left.svg) no-repeat;
+}
+[style-editing] .edit-content.align .align-item .align-center {
+    background: center url(/assets/align_center.svg) no-repeat;
+}
+[style-editing] .edit-content.align .align-item .align-right {
+    background: center url(/assets/align_right.svg) no-repeat;
+}
+[style-editing] .edit-content.align .align-item .align-top {
+    background: center url(/assets/align_top.svg) no-repeat;
+}
+[style-editing] .edit-content.align .align-item .align-middle {
+    background: center url(/assets/align_vertical_middle.svg) no-repeat;
+}
+[style-editing] .edit-content.align .align-item .align-bottom {
+    background: center url(/assets/align_bottom.svg) no-repeat;
+}
+[style-editing] .edit-content.align .align-item .align-horizontal {
+    background: center url(/assets/align_horizontal_distribution.svg) no-repeat;
+}
+[style-editing] .edit-content.align .align-item .align-vertical {
+    background: center url(/assets/align_vertical_distribution.svg) no-repeat;
+}
+[style-editing] .edit-content.size {
+    line-height: 36px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+[style-editing] .edit-content.size .pos-item input {
+    width: 80%;
+    height: 24px;
+    padding-right: 20px;
+    margin-left: 10px;
+}
+[style-editing] .edit-content.size .pos-item {
+    width: 33%;
+    height: 36px;
+    position: relative;
+}
+[style-editing] .edit-content.size .pos-item.px::after {
+    content: 'X';
+    position: absolute;
+    top: 13px;
+    right: 20px;
+    z-index: 1;
+    line-height: 1;
+    font-size: 10px;
+}
+[style-editing] .edit-content.size .pos-item.py::after {
+    content: 'Y';
+    position: absolute;
+    top: 13px;
+    right: 20px;
+    z-index: 1;
+    line-height: 1;
+    font-size: 10px;
+}
+[style-editing] .edit-content.size .pos-item.deg::after {
+    content: 'o';
+    position: absolute;
+    top: 8px;
+    right: 20px;
+    z-index: 1;
+    line-height: 1;
+    font-size: 10px;
+}
+[style-editing] .edit-content.size .pos-item.w::after {
+    content: 'W';
+    position: absolute;
+    top: 13px;
+    right: 20px;
+    z-index: 1;
+    line-height: 1;
+    font-size: 10px;
+}
+[style-editing] .edit-content.size .pos-item.h::after {
+    content: 'H';
+    position: absolute;
+    top: 13px;
+    right: 20px;
+    z-index: 1;
+    line-height: 1;
+    font-size: 10px;
+}
+[style-editing] .edit-content.size .pos-item.mirror {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+[style-editing] .edit-content.size .pos-item.mirror > div {
+    width: 16px;
+    height: 16px;
+    cursor: pointer; 
+}
+
+[style-editing] .edit-content.size .pos-item.mirror .mirror-l {
+    background: center url(/assets/mirror_lr.svg) no-repeat;
+}
+
+[style-editing] .edit-content.size .pos-item.mirror .mirror-r {
+    background: center url(/assets/mirror_vh.svg) no-repeat;
+}
+[style-editing] .edit-content.setter {
+    display: flex;
+    flex-direction: column;
+    line-height: 36px;
+}
+[style-editing] .edit-content.setter .setter-item {
+    display: flex;
+    flex-direction: row;
+    padding: 5px 10px;
+}
+[style-editing] .edit-content.setter .setter-item .setter-key {
+    width: 30%;
+}
+
+[style-editing] .edit-content.setter .setter-item .setter-val {
+    width: 70%;
+    line-height: 36px;
+}
+[style-editing] .edit-content.setter .setter-item .setter-val.opacity {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+[style-editing] .edit-content.setter .setter-item .setter-val.opacity .range {
+    width: calc(70% - 20px);
+}
+[style-editing] .edit-content.setter .setter-item .setter-val.opacity .step {
+    width: 30%;
+}
+
+[style-editing] .edit-content.setter .setter-item input {
+    height: 24px;
+    vertical-align: middle;
+}
+[style-editing] .edit-content.setter .setter-item .setter-val.opacity input[type="range"] {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+}
+[style-editing] .edit-content.setter .setter-item .setter-val.opacity input[type="number"] {
+    width: 100%;
+    display: inline-block;
+}

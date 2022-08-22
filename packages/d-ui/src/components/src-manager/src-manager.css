@@ -1,0 +1,89 @@
+[src-manager] {
+    overflow-y: auto;
+    height: 100%;
+}
+[src-manager] .sub-title {
+    position     : relative;
+    line-height  : 36px;
+    text-indent  : 30px;
+    border-top   : solid 1px var(--border-silver-color);
+    border-bottom: solid 1px var(--border-silver-color);
+}
+
+[src-manager] .sub-title {
+    position: relative;
+}
+
+[src-manager].sub-title.close::before {
+    transform: rotate(180deg);
+}
+
+[src-manager] .sub-title.close {
+    border-bottom: none !important;
+}
+
+[src-manager].sub-container:last-child {
+    border-bottom: solid 1px var(--border-silver-color);
+}
+
+[src-manager] .sub-content.close {
+    display: none !important;
+}
+
+[src-manager] .sub-content .src-item {
+    position       : relative;
+    display        : flex;
+    flex-direction : column;
+    align-items    : center;
+    justify-content: center;
+    width          : 100px;
+    height         : 100px;
+    margin         : 3px;
+    border         : solid 1px var(--border-silver-color);
+}
+
+[src-manager] .sub-content .src-item .icon {
+    position        : absolute;
+    top             : 0;
+    left            : 0;
+    width           : 37px;
+    height          : 23px;
+    background-color: #c0c0c0;
+    text-align      : center;
+    line-height     : 23px;
+}
+
+[src-manager] .sub-content .src-item .thumbnail {
+    width           : 70px;
+    height          : 50px;
+    background-color: var(--handle-color);
+    margin-top      : 20px;
+}
+
+[src-manager] .sub-content .src-item .info {
+    margin-top : 5px;
+    line-height: 1;
+    font-size  : 12px;
+}
+
+[src-manager] .sub-content .src-item:nth-child(2n) {
+    margin-right: 0;
+}
+
+[src-manager] .sub-container:last-child {
+    border-bottom: solid 1px var(--border-silver-color);
+}
+
+[src-manager] .sub-title::before {
+    content    : '<';
+    display    : inline-block;
+    top        : 0px;
+    position   : absolute;
+    text-indent: 0;
+    left       : 10px;
+    transform  : rotate(-90deg);
+}
+
+[src-manager] .sub-title.close::before {
+    transform: rotate(180deg);
+}

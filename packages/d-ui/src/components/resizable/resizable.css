@@ -1,0 +1,93 @@
+[resizable] {
+    --handle-tmt   : -45px;
+    --handle-x     : 45px;
+    --handle-vm    : 45px;
+    --handle-hm    : 45px;
+    --handle-offset: -5px;
+
+    position        : absolute;
+    border          : solid 1px var(--handle-color);
+}
+
+[resizable] .handle {
+    position        : absolute;
+    width           : 10px;
+    height          : 10px;
+    background-color: white;
+    border          : solid 1px var(--handle-color);
+}
+
+[resizable] .t-l {
+    left  : var(--handle-offset);
+    top   : var(--handle-offset);
+    cursor: nw-resize;
+}
+
+[resizable] .t-r {
+    right : var(--handle-offset);
+    top   : var(--handle-offset);
+    cursor: ne-resize;
+}
+
+[resizable] .t-m-t {
+    transform: translate(var(--handle-vm), 0px);
+    top      : var(--handle-tmt);
+    cursor   : w-resize;
+}
+
+[resizable] .t-m-t::before {
+    content       : '';
+    display       : inline-block;
+    height        : 10px;
+    width         : 10px;
+    border-radius : 10px;
+    border        : solid 1px #4af;
+    transform     : translate(-2.5px, 82.5px);
+    background    : #fff;
+    pointer-events: none;
+}
+
+[resizable] .t-m-t::after {
+    content       : '';
+    display       : inline-block;
+    height        : 30px;
+    border        : solid 0.5px var(--handle-color);
+    transform     : translate(3px, -7px);
+    pointer-events: none;
+}
+
+[resizable] .t-m {
+    transform: translate(var(--handle-vm), 0px);
+    top      : var(--handle-offset);
+    cursor   : n-resize;
+}
+
+[resizable] .m-l {
+    left     : var(--handle-offset);
+    transform: translate(0, var(--handle-hm));
+    cursor   : w-resize;
+}
+
+[resizable] .m-r {
+    right    : var(--handle-offset);
+    transform: translate(0, var(--handle-hm));
+    cursor   : e-resize;
+}
+
+[resizable] .b-l {
+    left  : var(--handle-offset);
+    bottom: var(--handle-offset);
+    cursor: sw-resize;
+}
+
+[resizable] .b-m {
+    bottom   : var(--handle-offset);
+    transform: translate(var(--handle-vm), 0px);
+    cursor   : s-resize;
+}
+
+[resizable] .b-r {
+    right : var(--handle-offset);
+    bottom: var(--handle-offset);
+    cursor: se-resize;
+}

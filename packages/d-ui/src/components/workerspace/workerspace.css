@@ -1,0 +1,83 @@
+[workerspace] {
+    flex            : 1;
+    background-color: var(--border-silver-color);
+    display         : flex;
+    flex-direction  : column;
+    border          : solid 1px var(--border-silver-color);
+    overflow        : hidden;
+}
+
+[workerspace] .worker-content {
+    position        : absolute;
+    top             : 0;
+    left            : 0;
+    width           : 1000px;
+    height          : 1000px;
+    background-color: white;
+}
+
+[workerspace] .worker-content .selected {
+    cursor: move;
+    border: solid 1px black;
+}
+
+[workerspace] .worker-wrapper {
+    position  : relative;
+    overflow  : hidden;
+    min-height: calc(100% - var(--tools-bar-height));
+}
+
+[workerspace] .worker-container {
+    position: absolute;
+    width   : calc(100% - 30px);
+    height  : calc(100% - 30px);
+    top     : 30px;
+    left    : 30px;
+}
+
+[workerspace] .worker-bar {
+    position        : relative;
+    border-top      : solid 1px var(--border-silver-color);
+    min-height      : var(--tools-bar-height);
+    background-color: white;
+    display         : flex;
+    line-height     : var(--tools-bar-height);
+    padding-left    : 30px;
+}
+
+[workerspace] .worker-bar .state-item {
+    margin-right: 30px;
+    font-weight : bold;
+    display     : inherit;
+}
+
+[workerspace] .worker-bar .state-item .label {
+    margin-left: 10px;
+}
+
+[workerspace] .ruler-horizontal::before {
+    content   : '';
+    display   : inline-block;
+    width     : 30px;
+    height    : 30px;
+    position  : absolute;
+    left      : -30px;
+    top       : 0;
+    background: #dedede;
+}
+
+[workerspace] .ruler-horizontal {
+    cursor  : col-resize;
+    position: absolute;
+    left    : 30px;
+    height  : 30px;
+    width   : calc(100% - 30px);
+}
+
+[workerspace] .ruler-vertical {
+    cursor  : row-resize;
+    position: absolute;
+    top     : 30px;
+    width   : 30px;
+    height  : calc(100% - 30px);
+}

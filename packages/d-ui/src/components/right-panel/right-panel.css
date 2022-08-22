@@ -1,0 +1,193 @@
+[right-panel] {
+    --thumbnail-default-bg: #0070cc;
+
+    width           : 0;
+    background-color: white;
+    display         : flex;
+    flex-direction  : column;
+    position        : relative;
+}
+
+[right-panel].show {
+    min-width: 270px;
+}
+
+[right-panel].show .prop-container-wrapper {
+    display: block;
+}
+
+[right-panel] .prop-container-wrapper {
+    display: none;
+    height: 100%;
+}
+
+[right-panel].show .collapse .mark::before {
+    content: ">";
+}
+
+[right-panel] .collapse .mark::before {
+    position: absolute;
+    top     : -2px;
+    left    : 0;
+    width   : 100%;
+    content : "<";
+}
+
+[right-panel] .collapse .mark {
+    border  : solid 1px var(--border-silver-color);
+    position: relative;
+    width   : 100%;
+    height  : 100%;
+}
+
+[right-panel] .collapse {
+    width      : 12px;
+    height     : 30px;
+    position   : absolute;
+    left       : -15px;
+    z-index    : 1;
+    top        : 50%;
+    background : #fff;
+    text-align : center;
+    line-height: 30px;
+    cursor     : pointer;
+}
+
+[right-panel] .custom-settings .settings-title {
+    height       : 36px;
+    line-height  : 36px;
+    text-align   : center;
+    border-bottom: solid 1px var(--border-silver-color);
+}
+
+[right-panel] .custom-settings .settings-content {
+    border-bottom: solid 1px var(--border-silver-color);
+}
+
+[right-panel] .custom-settings .settings-content .settings-item {
+    padding       : 5px 10px;
+    display       : flex;
+    flex-direction: row;
+    flex-wrap     : wrap;
+    line-height   : 36px;
+}
+
+[right-panel] .custom-settings .settings-content .settings-item .setter-prop {
+    width: 30%;
+}
+
+[right-panel] .custom-settings .settings-content .settings-item .setter-val {
+    width: 70%;
+}
+
+[right-panel] .custom-settings .settings-content .settings-item .setter-prop.img {
+    width: 100%;
+    display: flex;
+}
+
+
+[right-panel] [props-interaction-panel] {
+    display: none;
+}
+
+[setter-input] input {
+    vertical-align: middle;
+}
+
+[setter-color] input[type="color"] {
+    width : 100%;
+    height: 24px;
+}
+
+[setter-select-double-constraint] select {
+    width : 100%;
+    height: 24px;
+}
+
+[setter-select-double-constraint] .setter-constraint input[type="text"] {
+    padding-right: 15px;
+    height       : 24px;
+}
+
+[setter-select-double-constraint] .setter-constraint {
+    display       : flex;
+    flex-direction: row;
+    align-items   : center;
+    width         : 100%;
+}
+
+[setter-select-double-constraint] .setter-constraint .cons-l::after {
+    content    : 'W';
+    position   : absolute;
+    top        : 13px;
+    right      : 5px;
+    z-index    : 1;
+    line-height: 1;
+    font-size  : 10px;
+}
+
+[setter-select-double-constraint] .setter-constraint .cons-r::after {
+    content    : 'H';
+    position   : absolute;
+    top        : 13px;
+    right      : 5px;
+    z-index    : 1;
+    line-height: 1;
+    font-size  : 10px;
+}
+
+[setter-select-double-constraint] .setter-constraint .cons-l,
+[setter-select-double-constraint] .setter-constraint .cons-r {
+    position: relative;
+    width   : 45%;
+}
+
+[setter-select-double-constraint] .setter-constraint .cons-l input,
+[setter-select-double-constraint] .setter-constraint .cons-r input {
+    display: inline-block;
+    width  : 100%;
+}
+
+[setter-select-double-constraint] .setter-constraint .cons-m {
+    width : 16px;
+    height: 16px;
+    margin: 0 3px;
+}
+
+[setter-select-double-constraint] .setter-constraint .cons-m.lock {
+    background: url(/assets/lock.svg);
+}
+
+[setter-select-double-constraint] .setter-constraint .cons-m.unlock {
+    background: url(/assets/unlock.svg);
+}
+
+[setter-image] .thumbnail {
+    width           : 100px;
+    height          : 100px;
+    border          : solid 1px var(--border-silver-color);
+    background-color: var(--thumbnail-default-bg);
+}
+
+[setter-image] .img-action {
+    display        : flex;
+    flex-direction : column;
+    justify-content: flex-end;
+    height         : 100px;
+    margin-left: 10px;
+}
+
+[setter-image] .img-action>div:hover {
+    background-color: var(--border-silver-color);
+    border-color    : black;
+}
+
+[setter-image] .img-action>div {
+    border     : solid 1px var(--border-silver-color);
+    text-align : center;
+    margin     : 10px 0px 0;
+    height     : 32px;
+    line-height: 32px;
+    cursor     : pointer;
+    width      : 90px;
+}

@@ -1,0 +1,138 @@
+:root {
+    --handle-color       : #0070cc;
+    --title-bg-color     : #F3F3F3;
+    --tools-bar-height   : 36px;
+    --border-silver-color: #E5E5E5;
+    --m-xm               : 5px;
+    --m-md               : 10px;
+    --p-xm               : 5px;
+    --p-md               : 10px;
+    --btn-primary        : #0070cc;
+}
+
+* {
+    margin    : 0;
+    padding   : 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    font-size  : 12px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+html {
+    width                   : 100%;
+    height                  : 100%;
+    line-height             : 1.15;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    width                : 100%;
+    height               : 100%;
+    overscroll-behavior-x: none;
+    overflow             : hidden;
+}
+
+#app {
+    width : 100%;
+    height: 100%;
+}
+
+.application {
+    flex-direction  : column;
+    background-color: white;
+    width           : 100%;
+    height          : 100%;
+}
+
+.box {
+    display         : flex;
+    height          : calc(100% - var(--tools-bar-height));
+    width           : 100%;
+    background-color: white;
+}
+
+#app .application {
+    display: none;
+}
+
+[loading-status] {
+    display    : inline-block;
+    position   : relative;
+    width      : 80px;
+    height     : 80px;
+    margin-left: calc(50% - 40px);
+    margin-top : 10%;
+}
+
+[loading-status] div {
+    display   : inline-block;
+    position  : absolute;
+    left      : 8px;
+    width     : 16px;
+    background: silver;
+    animation : loading-status 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+
+[loading-status] div:nth-child(1) {
+    left           : 8px;
+    animation-delay: -0.24s;
+}
+
+[loading-status] div:nth-child(2) {
+    left           : 32px;
+    animation-delay: -0.12s;
+}
+
+[loading-status] div:nth-child(3) {
+    left           : 56px;
+    animation-delay: 0;
+}
+
+@keyframes loading-status {
+    0% {
+        top   : 8px;
+        height: 64px;
+    }
+
+    50%,
+    100% {
+        top   : 24px;
+        height: 32px;
+    }
+}
+
+.btn {
+    -webkit-appearance : button;
+    display            : inline-block;
+    line-height        : 1.5;
+    padding            : 0 16px;
+    height             : 32px;
+    line-height        : 32px;
+    margin             : 0 7px;
+    text-align         : center;
+    text-decoration    : none;
+    vertical-align     : middle;
+    cursor             : pointer;
+    -webkit-user-select: none;
+    -moz-user-select   : none;
+    user-select        : none;
+    border             : solid 1px var(--border-silver-color);
+}
+
+.btn-primary {
+    color: white;
+    background-color: var(--btn-primary);
+}
+
+.btn-primary:hover {
+    background: #005aa5!important;
+}
+
+.btn:hover {
+    background: #ebebeb;
+    border-color: #737373;
+}

@@ -1,0 +1,31 @@
+[role="d-tabs"] {
+    width: 100%;
+    height: 100%;
+}
+
+[role="d-tabs"] .tabs-nav {
+    line-height   : 36px;
+    display       : flex;
+    flex-direction: row;
+}
+
+[role="d-tabs"] .tabs-nav .nav-item.active {
+    color        : var(--nav-color);
+    border-bottom: solid 1px var(--nav-color);
+}
+
+[role="d-tabs"] .tabs-nav .nav-item {
+    flex      : 1;
+    text-align: center;
+}
+
+[role="d-tabs"] .tabs-content.active {
+    display: block;
+}
+
+[role="d-tabs"] .tabs-content {
+    height: calc(100% - 36px);
+    display   : none;
+    border-top: solid 1px var(--border-silver-color);
+    overflow-y: auto;
+}

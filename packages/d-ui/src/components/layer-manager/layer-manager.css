@@ -1,0 +1,145 @@
+[layer-manager] {
+    --layer-bg-color   : #f3f3f3;
+    --layer-bd-color   : #1890FF;
+    --layer-gp-bg-color: #E5E5E5;
+
+    overflow-y: auto;
+    height: 100%;
+}
+
+[layer-manager] .layer-item.selected {
+    position        : relative;
+    background-color: var(--layer-bg-color);
+}
+
+[layer-manager] .layer-item.selected::before {
+    border-left: solid 1px var(--layer-bd-color);
+    content    : '';
+    position   : absolute;
+    left       : 0;
+    top        : 0;
+    height     : 100%;
+}
+
+[layer-manager] .layer-item.selected {
+    background-color: var(--layer-gp-bg-color);
+}
+
+[layer-manager] .layer-item.group .group-title {
+    position: relative;
+}
+
+[layer-manager] .layer-item.group .group-title .icon {
+    display    : inline-block;
+    top        : 0px;
+    position   : absolute;
+    text-indent: 0;
+    left       : 10px;
+    transform  : rotate(-90deg);
+    cursor     : pointer;
+}
+
+[layer-manager] .layer-item.group.close .group-title .icon {
+    transform: rotate(180deg);
+}
+
+[layer-manager] .layer-item.group.close .group-content {
+    display: none;
+}
+
+[layer-manager] .layer-item.selected .group-content .layer-item {
+    background-color: var(--layer-bg-color);
+    border-left     : solid 1px var(--layer-bg-color);
+}
+
+[layer-manager] .layer-item {
+    line-height   : 36px;
+    text-indent   : 30px;
+    display       : flex;
+    flex-direction: column;
+}
+
+[layer-manager] .layer-item .content-wrapper {
+    display        : flex;
+    flex-direction : row;
+    justify-content: end;
+    height         : 36px;
+}
+
+[layer-manager] .layer-item .content-wrapper .pre {
+    display        : flex;
+    flex-direction : row;
+    width          : 60%;
+    align-items    : center;
+    justify-content: start;
+}
+
+[layer-manager] .layer-item .content-wrapper .post {
+    display        : flex;
+    flex-direction : row;
+    width          : 25%;
+    align-items    : center;
+    justify-content: space-around;
+}
+[layer-manager] .layer-item .content-wrapper .post .a {
+    cursor: pointer;
+}
+
+[layer-manager] .layer-item .content-wrapper .a {
+    width: calc(100% - 16px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+[layer-manager] .layer-item .content-wrapper .pre .folder {
+    background: url(/assets/folder.svg);
+    width     : 16px;
+    height    : 16px;
+}
+
+[layer-manager] .layer-item .content-wrapper .pre .text {
+    background: url(/assets/text.svg)!important;
+    width     : 16px;
+    height    : 16px;
+}
+
+[layer-manager] .layer-item .content-wrapper .pre .image {
+    background: url(/assets/image.svg)!important;
+    width     : 16px;
+    height    : 16px;
+}
+
+[layer-manager] .layer-item .content-wrapper .pre :not(.l).a {
+    background: url(/assets/component.svg);
+    width: 16px;
+    height: 16px;
+}
+
+[layer-manager] .layer-item .content-wrapper .post .lock {
+    background: url(/assets/lock.svg);
+    width     : 16px;
+    height    : 16px;
+}
+
+[layer-manager] .layer-item .content-wrapper .post .unlock {
+    background: url(/assets/unlock.svg);
+    width     : 16px;
+    height    : 16px;
+}
+
+[layer-manager] .layer-item .content-wrapper .post .eye {
+    background: url(/assets/eye.svg);
+    width     : 16px;
+    height    : 16px;
+}
+
+[layer-manager] .layer-item .content-wrapper .post .noeye {
+    background: url(/assets/no_eye.svg);
+    width     : 16px;
+    height    : 16px;
+}
+
+[layer-manager] .layer-item:not(.selected):hover {
+    background-color: var(--layer-bg-color);
+}

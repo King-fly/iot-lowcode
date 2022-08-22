@@ -1,0 +1,215 @@
+[ux-editing] {
+    --wh-size: 16px;
+    --w-auto : auto;
+    --w-xx   : 100%;
+    --xs-b   : 30%;
+    --ms-b   : 50%;
+    --ls-b   : 70%;
+}
+
+[ux-editing] .rea-wrapper .rea-container .rea-title {
+    line-height     : 36px;
+    position        : relative;
+    display         : flex;
+    flex-direction  : row;
+    align-items     : center;
+    background-color: var(--title-bg-color);
+}
+
+[ux-editing] .rea-wrapper .rea-container .rea-title .icon {
+    width      : 16px;
+    cursor     : pointer;
+    position   : absolute;
+    left       : 10px;
+    top        : 10px;
+    height     : var(--wh-size);
+    line-height: var(--wh-size);
+    text-align : center;
+    transform  : rotate(90deg);
+}
+
+[ux-editing] .rea-wrapper .rea-container.close .rea-title .icon {
+    transform: rotate(0deg);
+}
+
+[ux-editing] .rea-wrapper .rea-container.close .rea-content {
+    display: none;
+}
+
+[ux-editing] .rea-wrapper .rea-container .rea-title .title {
+    width      : calc(100% - 62px);
+    margin-left: 36px;
+}
+
+[ux-editing] .rea-wrapper .rea-container .event-content {
+    display       : flex;
+    flex-direction: row;
+    flex-wrap     : wrap;
+    line-height   : 36px;
+    padding       : 5px 10px;
+}
+
+[ux-editing] .rea-wrapper .rea-container .event-content .globals-list {
+    display       : flex;
+    flex-direction: column;
+    width         : calc(100% - 2px);
+    border        : solid 1px var(--border-silver-color);
+}
+
+[ux-editing] .rea-wrapper .rea-container .event-content .globals-list .global-item {
+    display        : flex;
+    justify-content: space-between;
+    border-bottom  : solid 1px var(--border-silver-color);
+}
+
+[ux-editing] .rea-wrapper .rea-container .event-content .globals-list .global-item>div {
+    padding: 0 10px;
+}
+
+[ux-editing] .rea-wrapper .rea-container .event-content .globals-list .global-item:first-child {
+    background-color: var(--border-silver-color);
+}
+
+[ux-editing] .rea-wrapper .rea-container .event-content .globals-list .global-item:last-child {
+    border-bottom: none;
+}
+
+[ux-editing] .rea-wrapper .rea-container .event-content .event-key {
+    width   : 30%;
+    position: relative;
+}
+
+[ux-editing] .rea-wrapper .rea-container .event-content .event-key .icon:hover {
+    background-color: var(--handle-color);
+}
+
+[ux-editing] .rea-wrapper .rea-container .event-content .event-key .icon {
+    -webkit-mask-image: url(/assets/delete.svg);
+    mask-image        : url(/assets/delete.svg);
+    width             : 16px;
+    height            : 16px;
+    position          : absolute;
+    top               : 10px;
+    background-color  : black;
+    left              : 30px;
+    cursor            : pointer;
+}
+
+[ux-editing] .rea-wrapper .rea-container .event-content .event-val {
+    width: 70%;
+}
+
+[ux-editing] .rea-wrapper .rea-container .event-content .event-val select {
+    width : 100%;
+    height: 25px;
+}
+
+[ux-editing] .action-content .action-item {
+    border-bottom : solid 1px var(--border-silver-color);
+    padding-bottom: 10px;
+}
+
+
+[ux-editing] .rea-wrapper .rea-container .rea-title .del-btn {
+    cursor    : pointer;
+    width     : var(--wh-size);
+    height    : var(--wh-size);
+    background: center url(/assets/delete.svg) no-repeat;
+}
+
+[ux-editing] .default-btn:hover {
+    background-color: var(--title-bg-color);
+    border          : solid 1px black;
+}
+
+[ux-editing] .default-btn {
+    position   : relative;
+    border     : solid 1px var(--border-silver-color);
+    text-align : center;
+    margin     : 10px;
+    height     : 32px;
+    line-height: 32px;
+    cursor     : pointer;
+    width      : calc(100% - 20px);
+}
+
+[ux-editing] .txt-btn {
+    color       : var(--handle-color);
+    position    : relative;
+    text-align  : center;
+    height      : 32px;
+    line-height : 32px;
+    cursor      : pointer;
+    display     : inline-block;
+    padding-left: 20px;
+    margin-left : 10px;
+}
+
+[ux-editing] .txt-btn::before {
+    content    : '+';
+    position   : absolute;
+    left       : 0px;
+    top        : 3px;
+    font-size  : 20px;
+    line-height: 1;
+}
+
+
+[ux-editing] [content-type="refreshComponent"],
+[ux-editing] [content-type="showHide"],
+[ux-editing] [content-type="setGlobal"] {
+    display: none !important;
+}
+
+[macro-settings-modal] .content-wrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+    border: solid 1px var(--border-silver-color);
+}
+[macro-settings-modal] .content-wrap .field{
+    display: flex;
+    flex-direction: row;
+    height: 24px;
+    line-height: 24px;
+    padding: 10px;
+    box-sizing: content-box;
+    text-align: center;
+    border-bottom: solid 1px var(--border-silver-color);
+}
+[macro-settings-modal] .content-wrap .field:first-child {
+    background-color: var(--border-silver-color);
+}
+
+[macro-settings-modal] .content-wrap .field:last-child {
+    border-bottom: none;
+}
+
+[macro-settings-modal] .content-wrap .field .name {
+    width: 25%;
+}
+[macro-settings-modal] .content-wrap .field .value {
+    width: 25%;
+}
+[macro-settings-modal] .content-wrap .field .desc {
+    width: 25%;
+}
+[macro-settings-modal] .content-wrap .field .action {
+    width: 25%;
+    text-align: center;
+}
+[macro-settings-modal] .content-wrap .field .action .del-btn {
+    color: var(--handle-color);
+    cursor: pointer;
+}
+
+[macro-settings-modal] .content-wrap .field select,
+[macro-settings-modal] .content-wrap .field input {
+    height: 100%;
+    width: 90%;
+}
+[macro-settings-modal] .btn {
+    margin-top: 10px;
+    margin-left: 0;
+}
