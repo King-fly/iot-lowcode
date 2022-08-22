@@ -1,9 +1,12 @@
 import { Log } from '@d/shared/src/utils';
 
 type Options = {
-    panelName: string;
-
+    panelName?: string;
 }
+
+type ToolsPanelInput = [string?, Options?];
+
+
 class Panel {
 
     public panelName: string;
@@ -11,7 +14,7 @@ class Panel {
     public style: string;
     public options : Options
 
-    constructor(panelName = '', options: Options) {
+    constructor(panelName = '', options?: Options) {
         this.panelName = panelName
         this.icon = 'icon';
         this.style = '';
@@ -23,7 +26,7 @@ class Panel {
 }
 
 class ToolsPanel extends Panel {
-    constructor(...args: [string, Options]) {
+    constructor(...args: ToolsPanelInput) {
         super(...args);
         this.panelName = 'ToolsPanel'
         this.init();
@@ -31,53 +34,57 @@ class ToolsPanel extends Panel {
     init() {
         // 
     }
-    static create(...args:[string, Options]) {
+    static create(...args: ToolsPanelInput) {
         return new ToolsPanel(...args)
     }
 }
 
 class CanvasPanel extends Panel {
-    constructor(...args: [string, Options]) {
+    constructor(...args: ToolsPanelInput) {
         super(...args)
         this.panelName = 'CanvasPanel'
     }
-    static create(...args: [string, Options]) {
+    static create(...args: ToolsPanelInput) {
         return new CanvasPanel(...args)
     }
 }
 
 class DebugPanel extends Panel {
-    constructor(...args: [string, Options]) {
+    constructor(...args: ToolsPanelInput) {
         super(...args)
         this.panelName = 'DebugPanel'
     }
-    static create(...args: [string, Options]) {
+    static create(...args: ToolsPanelInput) {
         return new DebugPanel(...args)
     }
 }
 
 class SetterPanel extends Panel {
-    constructor(...args: [string, Options]) {
+    constructor(...args: ToolsPanelInput) {
         super(...args)
         this.panelName = 'SetterPanel'
     }
-    static create(...args: [string, Options]) {
+    static create(...args: ToolsPanelInput) {
         return new SetterPanel(...args)
     }
 }
 
 class MaterialPanel extends Panel {
-    constructor(...args: [string, Options]) {
+    constructor(...args: ToolsPanelInput) {
         super(...args)
         this.panelName = 'MaterialPanel'
     }
-    static create(...args: [string, Options]) {
+    static create(...args: ToolsPanelInput) {
         return new MaterialPanel(...args)
     }
 }
 
+interface Skeleton {
+
+}
+
 class Skeleton {
-    static skeleton: object;
+    static skeleton: Skeleton;
 
     static of() {
         if (!this.skeleton) {

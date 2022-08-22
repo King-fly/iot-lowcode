@@ -5,6 +5,7 @@ class BaseWidget {
     public name: string;
 
     static WIDGET_NAME = 'BaseWidget'
+
     constructor({icon, style} = {icon: '', style: ''}) {
         this.icon = icon;
         this.style = style;
@@ -32,7 +33,7 @@ class RevokeWidget extends BaseWidget {
 }
 
 class AutoSaveWidget extends BaseWidget {
-    static WIDGET_NAME = 'AutoSaveWidget'
+    static WIDGET_NAME: string = 'AutoSaveWidget'
     constructor(...args: []) {
         super(...args)
         this.name = AutoSaveWidget.WIDGET_NAME;
@@ -70,8 +71,8 @@ class WidgetManager {
     } = {};
 
     static register(widget: {
-        [key: string]: string;
         new (): any;
+        WIDGET_NAME: string;
     }) {
         WidgetManager.WIDGET_MAP[widget.WIDGET_NAME] = new widget();
         return this

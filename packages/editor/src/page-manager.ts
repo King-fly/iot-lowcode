@@ -4,11 +4,38 @@ import {
     Log
 } from '@d/shared/src/utils';
 
+type PageOptions = {
+    name: string;
+    selected?: boolean;
+    homePage?: boolean;
+    bgColor?: string;
+    bgImg?: string;
+    width?: string;
+    height?: string;
+    id?: string;
+}
+
+type PageItem = {
+    id: string;
+    homePage?: boolean;
+    selected?: boolean;
+    setSelected: () => void;
+}
+
 class Page {
     static genUUID() {
         return Utils.genUUID.call(this);
     }
-    constructor(options = {name: ''}) {
+    public name: string;
+    public selected: boolean;
+    public homePage: boolean;
+    public bgColor: string;
+    public bgImg: string;
+    public width?: string;
+    public height?: string;
+    public id?: string;
+
+    constructor(options: PageOptions = {name: ''}) {
         this.name = options.name;
         this.selected = options.selected ?? false;
         this.homePage = options.homePage ?? false;
@@ -18,17 +45,17 @@ class Page {
         this.height = options.height;
         this.init(options?.id);
     }
-    init(id) {
+    init(id?: string) {
         this.id = id ?? `page_${Page.genUUID()}`;
     }
-    static create(...args) {
-        return new this(...args);
+    static create(options: PageOptions) {
+        return new this(options);
     }
     setSelected() {
         this.selected = true;
         return this;
     }
-    setPageName(name) {
+    setPageName(name: string) {
         this.name = name;
         return this;
     }
@@ -42,18 +69,24 @@ class PageManager {
 
     static PageEventManager = Emitter.create();
 
-    static pageInstance;
+    static pageInstance: object;
 
-    static getInstance(...args) {
+    static getInstance(...args: [any]) {
         if (!this.pageInstance) {
             this.pageInstance = PageManager.create(...args)
         }
         return this.pageInstance;
     }
-    static create(...args) {
+    static create(...args: [any]) {
         return new this(...args)
     }
-    constructor(pageList) {
+    public pageList: PageItem[];
+    public eventManager: {
+        on: any;
+        trigger: any;
+    };
+
+    constructor(pageList: [PageItem]) {
         this.pageList = pageList || [];
 
         this.eventManager = PageManager.PageEventManager;
@@ -66,9 +99,13 @@ class PageManager {
         this.eventManager.on('page:updatePage', this.updatePage.bind(this));
         this.eventManager.on('page:addNewPage', this.addNewPage.bind(this));
     }
-    updatePage({data}) {
+    updatePage({data}: {data: {
+        id: string;
+        value: boolean;
+        key: string;
+    }}) {
         Log.debug('page manager', 'update page', data);
-        const page = this.pageList.find(({id}) => id === data.id);
+        const page: any = this.pageList.find(({id}) => id === data.id);
         if (data.key === 'homePage' && data.value === true) {
             this.pageList.forEach(page => (page.homePage = false));
         }
@@ -79,11 +116,13 @@ class PageManager {
             data: page
         });
     }
-    pageSelect({data}) {
+    pageSelect({data}: {data: {
+        id: string
+    }}) {
         Log.debug('page manager', 'page select', data);
         const page = this.pageList.find(({id}) => id === data.id);
         this.pageList.forEach(page => (page.selected = false));
-        page.setSelected();
+        page?.setSelected();
         this.eventManager
             .trigger({
                 type: 'right-panel:updatePageConfig',
@@ -101,15 +140,15 @@ class PageManager {
             data: this.pageList
         });
     }
-    addNewPage({data}) {
+    addNewPage({data} :{data: PageItem}) {
         Log.debug('page manager', 'add page', data);
         this.addPage(data);
     }
-    addPage(page) {
+    addPage(page: PageItem) {
         this.pageList.push(page);
         return this;
     }
-    delPage(page) {
+    delPage(page: {id: string}) {
         this.pageList = this.pageList.filter(({id}) => page.id !== id);
         return this;
     }

@@ -1,15 +1,27 @@
 import {Utils} from '@d/shared/src/utils'
 
+type BaseFilterOptions = {
+    type: string;
+    id: string;
+    source: string;
+};
+
 class BaseFilter {
 
     static FILTER_TYPE = 'base'
 
-    static create(options = {}) {
+    static create(options: BaseFilterOptions) {
         options.type = this.FILTER_TYPE;
         return new this(options)
     }
 
-    constructor(options = {}) {
+    public type: string;
+    public id: string;
+    public options: {
+        source?: string
+    }
+
+    constructor(options: BaseFilterOptions) {
         this.type = options?.type;
         this.id = options.id ?? `filter_${this.type}_${Utils.genUUID.call(this)}`
         this.options = {
@@ -22,8 +34,8 @@ class CodeFilter extends BaseFilter {
 
     static FILTER_TYPE = 'code';
 
-    constructor(...args) {
-        super(...args);
+    constructor(options: BaseFilterOptions) {
+        super(options);
     }
 }
 
@@ -31,21 +43,23 @@ class BizFilter extends BaseFilter {
 
     static FILTER_TYPE = 'biz';
 
-    constructor(...args) {
-        super(...args);
+    constructor(options: BaseFilterOptions) {
+        super(options);
     }
 
 }
 
 class FilterManager {
 
-    static FILTER_MAP = {}
+    static FILTER_MAP: {
+        [key: string]: object
+    } = {}
 
-    static register(filter) {
+    static register(filter: {FILTER_TYPE: string}) {
         this.FILTER_MAP[filter.FILTER_TYPE] = filter
         return this;
     }
-    static getFilter(name) {
+    static getFilter(name: string) {
         return this.FILTER_MAP[name];
     }
 }

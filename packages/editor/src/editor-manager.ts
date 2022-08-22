@@ -3,9 +3,44 @@ import {Layer, LayerManager} from '@d/render/src/layer-manager';
 import {DataSourceManager} from '@d/render/src/datasource-manager';
 import {PageManager} from './page-manager';
 
-export default class CanvasEditorManager {
+type Data = {
+    data: {
+        id?: string;
+        key?: string;
+        actionId?: object;
+        trigger?: object;
+        compId?: string;
+        triggerId?: object;
+        action?: object;
+        name: string;
+        ref: {
+            type: object;
+            trigger: object;
+            options: {
+                hides?: object;
+                shows?: object;
+                componentIds?: object;
+            }
+        },
+        value: object
+    }
+}
 
-    static SAVE_TIME;
+type SelectByIdReturns = {
+    setPropDataSource: (k?: string, _?: object) => void;
+    addInteraction: (_?: object) => void;
+    addAction: (t?: object, a?: object) => void;
+    removeInteraction: (id?: object) => void;
+    removeAction: (input: {
+        triggerId?: object;
+        actionId?: object;
+    }) => object;
+}
+
+export default class CanvasEditorManager {
+    public pageSchema: object = {};
+
+    static SAVE_TIME: number|NodeJS.Timer;
 
     static CanvasEditorEventManager = Emitter.create();
 
@@ -13,18 +48,37 @@ export default class CanvasEditorManager {
 
     static dataSource = DataSourceManager.getInstance();
     
-    static canvasEditorInstance;
+    static canvasEditorInstance: {
+        layerManager: {
+            layerList: object
+        }
+    };
 
-    static getInstance(...args) {
+    static getInstance(...args: [object]) {
         if (!this.canvasEditorInstance) {
             this.canvasEditorInstance = CanvasEditorManager.create(...args);
         }
         return this.canvasEditorInstance;
     }
-    static create(...args) {
+    static create(...args: [object]) {
         return new this(...args);
     }
-    constructor(pageList) {
+    public eventManager: any;
+    public pageManager: object;
+    public layerManager: {
+        layerList: object;
+        add: (_: object) => {};
+        delete: (_: object) => {};
+        selectById: (_?: string) => SelectByIdReturns;
+        select: (_: object) => {};
+        group: () => {};
+        ungroup: () => {};
+        lock: (_: object) => {};
+        unlock: (_: object) => {};
+        move: (_: object) => {};
+    };
+
+    constructor(pageList: object) {
         this.eventManager = CanvasEditorManager.CanvasEditorEventManager;
         this.pageManager = PageManager.getInstance(pageList);
         this.layerManager = CanvasEditorManager.layerManager;
@@ -43,7 +97,7 @@ export default class CanvasEditorManager {
         this.eventManager.on('canvasEditor:addAction', this.addAction.bind(this));
         this.eventManager.on('canvasEditor:updateTrigger', this.updateTrigger.bind(this));
     }
-    updateTrigger({data}) {
+    updateTrigger({data}: Data) {
         Log.debug('canvasEditor', 'update trigger', data);
         const interType = data.name;
         const ref = data.ref;
@@ -67,19 +121,19 @@ export default class CanvasEditorManager {
                 break;
         }
     }
-    addTrigger({data}) {
+    addTrigger({data}: Data) {
         Log.debug('canvasEditor', 'add trigger', data);
         this.selectById(data.compId)
             .addInteraction(data.trigger);
         return this;
     }
-    addAction({data}) {
+    addAction({data}: Data) {
         Log.debug('canvasEditor', 'add action', data);
         this.selectById(data.compId)
             .addAction(data.triggerId, data.action);
         return this;
     }
-    deleteAction({data}) {
+    deleteAction({data}: Data) {
         Log.debug('canvasEditor', 'delete action', data);
         this.selectById(data.compId)
             .removeAction({
@@ -88,7 +142,7 @@ export default class CanvasEditorManager {
             });
         return this;
     }
-    deleteTrigger({data}) {
+    deleteTrigger({data}: Data) {
         Log.debug('canvasEditor', 'delete trigger', data);
         this.selectById(data.compId)
             .removeInteraction(data.triggerId);
@@ -115,7 +169,7 @@ export default class CanvasEditorManager {
             data: this.layerManager.layerList
         });
     }
-    updateProps({data}) {
+    updateProps({data}:Data) {
         Log.debug('canvasEditor', 'update props', data);
         if (data.key === '$name') {
             this.eventManager.trigger({
@@ -125,7 +179,7 @@ export default class CanvasEditorManager {
         }
         this.selectById(data.id).setPropDataSource(data.key, data.value);
     }
-    addLayer({data}) {
+    addLayer({data}: Data) {
         this.add({
             compType: data
         }, layer => {
@@ -144,20 +198,29 @@ export default class CanvasEditorManager {
             });
         });
     }
-    add(data, cb = () => {}) {
+    add(data: object, cb = (_: any) => {}) {
         const layer = Layer.create(data);
         this.layerManager.add(layer);
         cb(layer);
         return this;
     }
-    delete(layer) {
+    delete(layer: object) {
         this.layerManager.delete(layer);
         return this;
     }
-    selectById(id) {
+    selectById(id?: string): {
+        setPropDataSource: (k?: string, _?: object) => void;
+        addInteraction: (_?: object) => void;
+        addAction: (t?: object, a?: object) => void;
+        removeInteraction: (id?: object) => void;
+        removeAction: (input: {
+            triggerId?: object;
+            actionId?: object;
+        }) => object;
+    } {
         return this.layerManager.selectById(id);
     }
-    select(layer) {
+    select(layer: object) {
         this.layerManager.select(layer);
         return this;
     }
@@ -169,15 +232,15 @@ export default class CanvasEditorManager {
         this.layerManager.ungroup();
         return this;
     }
-    lock(layer) {
+    lock(layer: object) {
         this.layerManager.lock(layer);
         return this;
     }
-    unlock(layer) {
+    unlock(layer: object) {
         this.layerManager.unlock(layer);
         return this;
     }
-    move(...args) {
+    move(...args: [object]) {
         this.layerManager.move(...args);
         return this;
     }

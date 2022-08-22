@@ -358,7 +358,9 @@ class PageComponent extends BaseComponent {
 
 class ComponentManager {
 
-    static COMPONENT_MAPS: any = {}
+    static COMPONENT_MAPS: {
+        [key: string]: any
+    } = {}
 
     static register(component: {COMPONENT_NAME: string}) {
         this.COMPONENT_MAPS[component.COMPONENT_NAME] = component;

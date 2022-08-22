@@ -67,7 +67,7 @@ class Designer {
     static get PAGE_LIST() {
         const pageList = () => {
             const list = JSON.parse(window.localStorage.getItem('schema')??'{}')?.pageList || [];
-            return list.map((page: object) => Page.create(page));
+            return list.map((page: {name: string}) => Page.create(page));
         };
         return D_ENV === 'dev' ? pageList() : [];
     }

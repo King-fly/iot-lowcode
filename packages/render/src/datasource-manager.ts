@@ -4,13 +4,20 @@ import {
     Log
 } from '@d/shared/src/utils';
 
+type Macro = {
+    id: string;
+    name: string;
+    value: string;
+    describe: string;
+};
+
 class DataSourceManager {
 
     static DataSourceEventManager = Emitter.create();
 
     static DATA_SOURCE_MAP: any = {};
 
-    static FILTER_LIST = [];
+    static FILTER_LIST:any[] = [];
 
     static register(datasource: {SRC_TYPE: string}) {
         this.DATA_SOURCE_MAP[datasource.SRC_TYPE] = datasource;
@@ -25,7 +32,9 @@ class DataSourceManager {
         return new this(...args);
     }
 
-    static dataSourceInstance: object;
+    static dataSourceInstance: {
+        dataSourceList?: any[]
+    };
 
     static getInstance(...args: []) {
         if (!this.dataSourceInstance) {
@@ -34,7 +43,10 @@ class DataSourceManager {
         return this.dataSourceInstance;
     }
     public dataSourceList: any[];
-    public eventManager: object;
+    public eventManager: {
+        on: any;
+        trigger: any;
+    };
     constructor() {
         this.dataSourceList = [];
         this.eventManager = DataSourceManager.DataSourceEventManager;
@@ -55,7 +67,7 @@ class DataSourceManager {
         });
         return this;
     }
-    macroEdit({data}) {
+    macroEdit({data}: {data: Macro}) {
         Log.debug('datasource manager', 'macroEdit', data);
         this.queryById(data.id)
             .setVal({
@@ -65,25 +77,25 @@ class DataSourceManager {
             });
         this.macroListInit();
     }
-    macroRemove({data}) {
+    macroRemove({data}: {data: object}) {
         Log.debug('datasource manager', 'macroRemove', data);
         this.delete(data)
             .macroListInit();
     }
-    macroAdd({data}) {
+    macroAdd({data}: {data: object}) {
         Log.debug('datasource manager', 'macroAdd', data);
         this.add(GlobalDataSource.create(data))
             .macroListInit();
     }
-    add(...dataSource) {
+    add(...dataSource: [any]) {
         this.dataSourceList.push(...dataSource);
         return this;
     }
-    delete(sourceId) {
+    delete(sourceId: object) {
         this.dataSourceList = this.dataSourceList.filter(({id}) => sourceId !== id);
         return this;
     }
-    queryById(id) {
+    queryById(id: string) {
         return this.dataSourceList.find(src => src.id === id);
     }
     destroy() {
@@ -92,14 +104,32 @@ class DataSourceManager {
     }
 }
 
+type BaseDataSourceOptions = {
+    type?: string;
+    id?: string;
+    name?: string;
+    value?: string;
+    describe?: string;
+    enabled?: string;
+    method?: string;
+    params?: string;
+    url?: string;
+};
+
 class BaseDataSource {
 
-    static create(options = {}) {
+    public static SRC_TYPE: string;
+
+    static create(options: BaseDataSourceOptions) {
         options.type = this.SRC_TYPE;
         return new this(options);
     }
 
-    constructor(options = {}) {
+    public id: string;
+    public type?: string;
+    public options: BaseDataSourceOptions;
+
+    constructor(options: BaseDataSourceOptions) {
         this.options = {};
         this.type = options.type;
         this.id = options.id ?? `datasource_${this.type}_${Utils.genUUID.call(this)}`;
@@ -116,16 +146,17 @@ class DeviceDataSource extends BaseDataSource {
 
     static SRC_TYPE = 'device'
 
-    constructor(...args) {
+    constructor(...args: [any]) {
         super(...args)
     }
 }
+
 
 class GlobalDataSource extends BaseDataSource {
 
     static SRC_TYPE = 'global'
 
-    constructor(options) {
+    constructor(options: BaseDataSourceOptions) {
         super(options);
 
         if (options.name) {
@@ -137,7 +168,7 @@ class GlobalDataSource extends BaseDataSource {
             throw new Error(`${this.type} datasource error`);
         }
     }
-    setVal(data) {
+    setVal(data: BaseDataSourceOptions) {
         this.options = {
             ...(this.options),
             ...data
@@ -147,15 +178,19 @@ class GlobalDataSource extends BaseDataSource {
 }
 
 class InterfaceHandler {
-    static create(options) {
+    static create(options: BaseDataSourceOptions) {
         return new this(options);
     }
-    constructor(options) {
+    public id: string;
+    public enabled: boolean|string;
+    public value: string;
+
+    constructor(options: BaseDataSourceOptions) {
         this.id = options?.id ?? `datasource_handler_${Utils.genUUID.call(this)}`;
         this.enabled = options?.enabled ?? false;
         this.value = options?.value ?? '';
     }
-    enable(val) {
+    enable(val: boolean) {
         this.enabled = val ?? false;
         return this;
     }
@@ -165,7 +200,11 @@ class InterfaceDataSource extends BaseDataSource {
 
     static SRC_TYPE = 'interface'
 
-    constructor(options) {
+    public dataHandler: any[];
+
+    public options: BaseDataSourceOptions = {};
+
+    constructor(options: BaseDataSourceOptions) {
         super(options);
 
         this.options.method = options.method;
@@ -173,7 +212,7 @@ class InterfaceDataSource extends BaseDataSource {
         this.options.url = options.url;
         this.dataHandler = [];
     }
-    addDataHandler(...handler) {
+    addDataHandler(...handler: [any]) {
         this.dataHandler.push(...handler.reduce((prev, cur) => {
             DataSourceManager.FILTER_LIST.push(cur);
             prev.push(InterfaceHandler.create({value: cur.id}));
@@ -181,11 +220,11 @@ class InterfaceDataSource extends BaseDataSource {
         }, []));
         return this;
     }
-    removeDataHandler(handleId) {
+    removeDataHandler(handleId: string) {
         this.dataHandler = this.dataHandler.filter(({id}) => id !== handleId);
         return this;
     }
-    setDataHandler(dataHandler) {
+    setDataHandler(dataHandler: any[]) {
         this.dataHandler = dataHandler ?? [];
         return this;
     }
