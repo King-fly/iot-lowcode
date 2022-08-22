@@ -8,31 +8,33 @@ class DataSourceManager {
 
     static DataSourceEventManager = Emitter.create();
 
-    static DATA_SOURCE_MAP = {};
+    static DATA_SOURCE_MAP: any = {};
 
     static FILTER_LIST = [];
 
-    static register(datasource) {
+    static register(datasource: {SRC_TYPE: string}) {
         this.DATA_SOURCE_MAP[datasource.SRC_TYPE] = datasource;
         return this;
     }
 
-    static getDataSource(sourceName) {
+    static getDataSource(sourceName: string) {
         return this.DATA_SOURCE_MAP[sourceName];
     }
 
-    static create(...args) {
+    static create(...args: []) {
         return new this(...args);
     }
 
-    static dataSourceInstance;
+    static dataSourceInstance: object;
 
-    static getInstance(...args) {
+    static getInstance(...args: []) {
         if (!this.dataSourceInstance) {
             this.dataSourceInstance = DataSourceManager.create(...args);
         }
         return this.dataSourceInstance;
     }
+    public dataSourceList: any[];
+    public eventManager: object;
     constructor() {
         this.dataSourceList = [];
         this.eventManager = DataSourceManager.DataSourceEventManager;
