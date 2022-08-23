@@ -18,10 +18,23 @@ export default class WorkerSpace {
         Application.rulerInit();
         this.create(this.ROOT);
     }
-    static create(...args) {
+    static create(...args: [HTMLElement|string, object?]) {
         return new this(...args);
     }
-    constructor(root, options) {
+
+    public root: HTMLElement|null;
+    public options: object;
+    public scale: number;
+    public MOVE_STATUS: string;
+    public MOVE_FLAG: string;
+    public CANVAS_POS: any;
+    public canvasContainer: HTMLElement|null;
+    public workerContent: HTMLElement|null;
+
+    public canvasEditorEventManager: any;
+    public pageEventManager: any;
+
+    constructor(root: HTMLElement|string, options?: object) {
         this.root = typeof root === 'string' ? document.querySelector(root) : root;
         this.options = options || {};
         this.scale = 0.5;
@@ -52,11 +65,11 @@ export default class WorkerSpace {
         document.addEventListener('keydown', this.moveKeydown.bind(this), false);
         document.addEventListener('keyup', this.moveKeyup.bind(this), false);
 
-        this.workerContent.addEventListener('mousedown', this.contentMousedown.bind(this), false);
-        this.workerContent.addEventListener('mousemove', this.contentMousemove.bind(this), false);
-        this.workerContent.addEventListener('mouseup', this.contentMouseup.bind(this), false);
+        this.workerContent?.addEventListener('mousedown', this.contentMousedown.bind(this), false);
+        this.workerContent?.addEventListener('mousemove', this.contentMousemove.bind(this), false);
+        this.workerContent?.addEventListener('mouseup', this.contentMouseup.bind(this), false);
 
-        this.workerContent.addEventListener('wheel', this.contentWheel.bind(this), { passive: false });
+        this.workerContent?.addEventListener('wheel', this.contentWheel.bind(this), { passive: false });
 
         window.addEventListener('wheel', this.disableWheel.bind(this), { passive: false });
         this.triggerWheelEvent();
@@ -64,20 +77,21 @@ export default class WorkerSpace {
             type: 'canvasEditor:canvasReady'
         });
 
-        this.workerContent.addEventListener('click', this.selectComp.bind(this));
+        this.workerContent?.addEventListener('click', this.selectComp.bind(this));
     }
-    selectLayer({data}) {
+    public compId: any;
+    selectLayer({data}: any) {
         Log.debug('workerspace', 'select layer', data);
         this.compId = data.id;
         this.selectComp({
-            target: this.workerContent.querySelector(`[comp-id=${data.id}]`)
+            target: this.workerContent?.querySelector(`[comp-id=${data.id}]`)
         });
     }
-    selectComp(event) {
+    selectComp(event: any) {
         const target = event.target.closest('.component');
         if (target) {
             this.compId = target.getAttribute('comp-id');
-            this.workerContent.querySelectorAll('.component').forEach(comp => comp.classList.remove('selected'));
+            this.workerContent?.querySelectorAll('.component').forEach(comp => comp.classList.remove('selected'));
             target.classList.add('selected');
             this.canvasEditorEventManager.trigger({
                 type: 'layerManager:selectLayer',
@@ -87,14 +101,14 @@ export default class WorkerSpace {
     }
 
     getTranslatePos() {
-        const [, x = 0, y = 0] = this.canvasContainer.style.transform.match(/translate\((.*)px,(.*)px\)/) || [];
+        const [, x = 0, y = 0] = this.canvasContainer?.style.transform.match(/translate\((.*)px,(.*)px\)/) || [];
         return {
             x: +x,
             y: +y
         }
     }
 
-    contentMousedown(event) {
+    contentMousedown(event: any) {
         const {x: oX, y: oY} = this.getTranslatePos();
         this.CANVAS_POS.start = {
             x: event.pageX,
@@ -109,7 +123,7 @@ export default class WorkerSpace {
         this.MOVE_STATUS = 'DISABLE';
     }
 
-    contentMousemove(event) {
+    contentMousemove(event: any) {
         event.preventDefault();
         event.stopPropagation();
         if (this.MOVE_FLAG !== 'SPACE') return;
@@ -120,11 +134,11 @@ export default class WorkerSpace {
         }
         const x = event.pageX - this.CANVAS_POS.start.x + this.CANVAS_POS.start.oX;
         const y = event.pageY - this.CANVAS_POS.start.y + this.CANVAS_POS.start.oY;
-        requestAnimationFrame(() => this.canvasContainer.style.transform = `translate(${x}px, ${y}px)`)
+        requestAnimationFrame(() => (this.canvasContainer as HTMLElement).style.transform = `translate(${x}px, ${y}px)`)
     }
 
-    renderComp(comp) {
-        const div = document.createElement('div');
+    renderComp(comp: any) {
+        const div: any = document.createElement('div');
         div.classList.add('component');
         div.setAttribute('comp-id', comp.id);
         div.setAttribute('d-comp-draggable', '')
@@ -145,7 +159,7 @@ export default class WorkerSpace {
         });
         return div;
     }
-    dragEndCallback(data, element) {
+    dragEndCallback(data: any, element: HTMLElement) {
         if (!data) return;
         const compId = element.getAttribute('comp-id');
         const layer = CanvasEditorCtl.getInstance().selectById(compId);
@@ -156,44 +170,44 @@ export default class WorkerSpace {
             data: layer
         })
     }
-    updateCompProp({data}) {
+    updateCompProp({data}: any) {
         Log.debug('workerspace', 'update comp prop', data);
         const prop = data.key
             .replace('$x', 'left')
             .replace('$y', 'top')
             .replace('$width', 'width')
             .replace('$height', 'height');
-        this.workerContent.querySelector(`[comp-id=${data.id}]`).style[prop] = `${data.value}px`;
+        (this.workerContent?.querySelector(`[comp-id=${data.id}]`)  as HTMLElement).style[prop] = `${data.value}px`;
     }
-    canvasRender({data}) {
-        this.workerContent.innerHTML = '';
-        data.forEach(comp => {
-            this.workerContent.appendChild(this.renderComp(comp));
+    canvasRender({data}: any) {
+        (this.workerContent as HTMLElement).innerHTML = '';
+        data.forEach((comp: any) => {
+            this.workerContent?.appendChild(this.renderComp(comp));
         });
         Log.debug('workerspace', 'canvas render', data);
     }
-    addComponent({data}) {
-        this.workerContent.appendChild(this.renderComp(data));
+    addComponent({data}: any) {
+        this.workerContent?.appendChild(this.renderComp(data));
         Log.debug('workerspace', `add ${data.compType} component`, data);
     }
-    spaceStyle({data}) {
+    spaceStyle({data}: any) {
         Log.debug('workerspace', 'space style', data);
-        this.workerContent.style.backgroundColor = data.bgColor;
+        (this.workerContent as HTMLElement).style.backgroundColor = data.bgColor;
     }
 
-    contentWheel(event) {
+    contentWheel(event: any) {
 
         if (!event.ctrlKey && !event.cusHook) return;
             event.preventDefault();
             event.stopPropagation();
 
             this.scale += event.deltaY * -0.001;
-            this.scale = Math.min(Math.max(0.125, this.scale), 4)
+            this.scale = Math.min(Math.max(0.125, this.scale), 4) as number;
 
-            this.workerContent.style.transform = `scale(${this.scale.toFixed(2)})`;
+            (this.workerContent as HTMLElement).style.transform = `scale(${this.scale.toFixed(2)})`;
 
     }
-    disableWheel(event) {
+    disableWheel(event: any) {
         if (event.ctrlKey === true) {
             event.preventDefault()
             event.stopPropagation();
@@ -202,16 +216,16 @@ export default class WorkerSpace {
 
     }
     triggerWheelEvent() {
-        const wheelEvt = document.createEvent('MouseEvents');
+        const wheelEvt: any = document.createEvent('MouseEvents');
         wheelEvt.initEvent('wheel', true, true);
 
         wheelEvt.deltaY = -200;
         wheelEvt.cusHook = true
-        this.workerContent.dispatchEvent(wheelEvt);
+        this.workerContent?.dispatchEvent(wheelEvt);
 
     }
 
-    moveKeydown(event) {
+    moveKeydown(event: {keyCode: number;}) {
         if (event.keyCode === 32) {
             this.MOVE_FLAG = 'SPACE';
         }

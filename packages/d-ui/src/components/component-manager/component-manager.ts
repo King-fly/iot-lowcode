@@ -6,7 +6,7 @@ export default class ComponentManager {
 
     static ROOT = '[component-manager]';
 
-    static create(...args) {
+    static create(...args: [Element|string]) {
         return new this(...args);
     }
 
@@ -14,7 +14,12 @@ export default class ComponentManager {
         this.create(this.ROOT);
     }
 
-    constructor(root, options = {}) {
+    public canvasEditorEventManager;
+    public root: any;
+    public componentList:any;
+    public options: object;
+
+    constructor(root: Element|string, options = {}) {
         this.canvasEditorEventManager = ComponentManager.canvasEditorEventManager;
         this.root = typeof root === 'string' ? document.querySelector(root) : root;
         this.componentList = this.root.querySelector('[component-list]');
@@ -24,13 +29,13 @@ export default class ComponentManager {
     init() {
         this.componentList.addEventListener('click', this.onClickComponentList.bind(this))
     }
-    onClickComponentList(event) {
+    onClickComponentList(event: {target: any}) {
         const target = event.target;
         if (target.closest('.comp-item')) {
             this.compItemClick(target.closest('.comp-item'));
         }
     }
-    compItemClick(target) {
+    compItemClick(target: Element) {
         const compName = target.getAttribute('comp-name');
         this.canvasEditorEventManager.trigger({
             type: 'canvasEditor:addLayer',

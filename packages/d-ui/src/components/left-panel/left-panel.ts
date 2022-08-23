@@ -6,7 +6,7 @@ export default class LeftPanel {
 
     static ROOT = '[left-panel]';
 
-    static create(...args) {
+    static create(...args: [Element|string, object?]) {
         return new this(...args);
     }
 
@@ -17,15 +17,19 @@ export default class LeftPanel {
         this.create(this.ROOT);
     }
 
-    constructor(root, options) {
+    public root: Element|string|null;
+    public options?: object;
+    public collapse: Element|null|undefined;
+
+    constructor(root: Element|string, options?: object) {
         this.root = typeof root === 'string' ? document.querySelector(root) : root;
         this.options = options;
-        this.collapse = this.root.querySelector('.collapse');
+        this.collapse = this.root?.querySelector('.collapse');
         this.init();
     }
     init() {
-        this.collapse.addEventListener('click', () => {
-            this.collapse.closest('[left-panel]').classList.toggle('show');
+        this.collapse?.addEventListener('click', () => {
+            (this.collapse as any).closest('[left-panel]').classList.toggle('show');
             Application.rulerH.resize();
         });
     }

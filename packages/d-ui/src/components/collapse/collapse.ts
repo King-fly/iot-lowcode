@@ -1,10 +1,13 @@
 export default class Collapse {
 
+    public element: any;
+    public options: object;
+
     static CLOSE_CLS = 'close';
 
     static ROOT = '[role="d-collapse"]';
 
-    static create(...args) {
+    static create(...args: [string|Element, object?]) {
         return new this(...args);
     }
 
@@ -16,13 +19,13 @@ export default class Collapse {
         }).bind(this))
     }
 
-    constructor(root, options = {}) {
+    constructor(root: string|Element, options = {}) {
         this.element = typeof root === 'string' ? document.querySelector(root) : root;
         this.options = options;
         this.init();
     }
     init() {
-        this.element.addEventListener('click', event => {
+        this.element?.addEventListener('click', (event: {target: any}) => {
             const target = event.target;
             const title = target.closest('[collapse-title]');
             if (title) {

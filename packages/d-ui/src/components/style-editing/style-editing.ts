@@ -1,5 +1,5 @@
 export default class StyleEditing {
-    static render() {
+    static render(): any {
         const frag = document.createDocumentFragment();
         const div = document.createElement('div');
         div.innerHTML = `

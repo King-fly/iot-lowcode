@@ -71,7 +71,7 @@ class PageManager {
 
     static pageInstance: object;
 
-    static getInstance(...args: [any]) {
+    static getInstance(...args: [any?]): any {
         if (!this.pageInstance) {
             this.pageInstance = PageManager.create(...args)
         }

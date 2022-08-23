@@ -36,7 +36,7 @@ class DataSourceManager {
         dataSourceList?: any[]
     };
 
-    static getInstance(...args: []) {
+    static getInstance(...args: []): any {
         if (!this.dataSourceInstance) {
             this.dataSourceInstance = DataSourceManager.create(...args);
         }

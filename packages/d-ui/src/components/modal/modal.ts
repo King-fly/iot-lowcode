@@ -1,23 +1,28 @@
 export default class Modal {
 
-    static CACHE = {};
+    static CACHE: {
+        [key: string]: any;
+    } = {};
 
     static TOGGLE_BTN = '[d-modal-toogle]'
 
-    static create(...args) {
+    static create(...args: [HTMLElement|string|null, any?]) {
         return new this(...args);
     }
     static loader() {
         document.addEventListener('DOMContentLoaded', (() => {
-            document.querySelectorAll(this.TOGGLE_BTN).forEach(root => {
+            document.querySelectorAll(this.TOGGLE_BTN).forEach((root: any) => {
                 this.create(root);
             });
         }).bind(this));
     }
-    constructor(root, options) {
+    public toggleBtn?: HTMLElement|null;
+    public options: any;
+
+    constructor(root: HTMLElement|string|null, options?: any) {
         if (root) {
             this.toggleBtn = typeof root === 'string' ? document.querySelector(root) : root;
-            this.toggleBtn.addEventListener('click', this.toggleModal.bind(this));
+            this.toggleBtn?.addEventListener('click', this.toggleModal.bind(this));
         }
 
         this.options = options;
@@ -26,9 +31,11 @@ export default class Modal {
             .mount();
     }
 
+    public root?: HTMLElement;
+
     init() {
         this.makeRootElement();
-        this.root.addEventListener('click', (event => {
+        this.root?.addEventListener('click', ((event: {target: any}) => {
             const eventList = [
                 {
                     cls: '.btn-close',
@@ -52,11 +59,11 @@ export default class Modal {
         }).bind(this));
         return this;
     }
-    ok() {
+    ok(_?: any) {
         this.options?.actions?.ok?.(this.root);
         this.hide();
     }
-    cancel() {
+    cancel(_?: any) {
         this.options.cancel?.() ?? this.hide();
     }
 
@@ -79,22 +86,22 @@ export default class Modal {
     }
 
     resetBodyStyle() {
-        document.body.style = Modal.CACHE['body-style'];
+        (document.body as any).style = Modal.CACHE['body-style'];
         return this;
     }
 
-    show(cb = () => {}) {
-        this.root.classList.add('show');
-        document.querySelector('.modal-backdrop').classList.add('show');
+    show(cb = (_?: any, s?: any) => {}) {
+        this.root?.classList.add('show');
+        document.querySelector('.modal-backdrop')?.classList.add('show');
 
         this.setBodyStyle();
         typeof cb === 'function' && cb(this.root, this.options);
         return this;
     }
 
-    hide(cb = () => {}) {
-        this.root.classList.remove('show');
-        document.querySelector('.modal-backdrop').classList.remove('show');
+    hide(cb = (_?: Element) => {}) {
+        this.root?.classList.remove('show');
+        document.querySelector('.modal-backdrop')?.classList.remove('show');
 
         this.resetBodyStyle();
         typeof cb === 'function' && cb(this.root);
@@ -102,8 +109,8 @@ export default class Modal {
     }
 
     toggleModal() {
-        this.root.classList.toggle('show');
-        document.querySelector('.modal-backdrop').classList.toggle('show');
+        this.root?.classList.toggle('show');
+        document.querySelector('.modal-backdrop')?.classList.toggle('show');
     }
     
     mount() {
@@ -121,12 +128,14 @@ export default class Modal {
         return div;
     }
 
-    render() {
-        this.root.innerHTML = this.template(this.data);
+    public data: any;
+
+    render(): any {
+        (this.root as any).innerHTML = this.template(this.data);
         return this.root;
     }
 
-    template() {
+    template(_?: object) {
         const {title, slots = {}} = this.options;
         const {body} = slots;
         return `

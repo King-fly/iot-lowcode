@@ -14,14 +14,18 @@ import DTabs from '../tabs';
 import DCollapse from '../collapse';
 
 export default class Application {
+    public static rulerH: any;
+    public static rulerV: any;
 
     static rulerInit() {
+        // @ts-ignore
         this.rulerH = new Ruler(document.querySelector('.ruler-horizontal'), {
             type: 'horizontal',
             backgroundColor: '#dedede',
             textColor: 'black'
         });
-        
+
+        // @ts-ignore
         this.rulerV = new Ruler(document.querySelector('.ruler-vertical'), {
             type: 'vertical',
             backgroundColor: '#dedede',
@@ -48,8 +52,8 @@ export default class Application {
 
     static postHandler() {
         window.addEventListener('load', () => {
-            document.querySelector('#app .application').style.display = 'flex';
-            document.querySelector('[loading-status]').remove();
+            (document.querySelector('#app .application') as any).style.display = 'flex';
+            document.querySelector('[loading-status]')?.remove();
             window.dispatchEvent(new Event('resize'));
         });
         return this;

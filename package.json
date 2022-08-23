@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "test": "yarn workspaces run test",
     "dev": "yarn workspace @d/editor run dev"
   },
   "workspaces": ["packages/*"],

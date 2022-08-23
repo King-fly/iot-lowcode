@@ -1,7 +1,7 @@
 export default class SrcManager {
     static ROOT = '[src-manager]';
 
-    static create(...args) {
+    static create(...args: [HTMLElement|string, object?]) {
         return new this(...args);
     }
 
@@ -9,18 +9,21 @@ export default class SrcManager {
         this.create(this.ROOT);
     }
 
-    constructor(root, options = {}) {
+    public root: HTMLElement|null;
+    public options: object;
+
+    constructor(root: HTMLElement|string, options = {}) {
         this.root = typeof root === 'string' ? document.querySelector(root) : root;
         this.options = options;
         this.init();
     }
 
     init() {
-        this.root.addEventListener('click', event => {
-            const target = event.target;
+        this.root?.addEventListener('click', (event: any) => {
+            const target: HTMLElement = event.target;
             if (target.classList.contains('sub-title')) {
                 target.classList.toggle('close');
-                target.closest('.sub-container').querySelector('.sub-content').classList.toggle('close')
+                (target.closest('.sub-container')?.querySelector('.sub-content') as HTMLElement).classList.toggle('close')
             }
         })
     }

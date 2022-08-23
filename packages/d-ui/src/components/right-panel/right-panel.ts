@@ -14,7 +14,7 @@ export default class RightPanel {
 
     static pageEventManager = PageCtl.getInstance().eventManager;
 
-    static create(...args) {
+    static create(...args: [HTMLElement|string, object?]) {
         return new this(...args);
     }
 
@@ -22,7 +22,14 @@ export default class RightPanel {
         this.create(this.ROOT);
     }
 
-    constructor(root, options) {
+    public root: HTMLElement|null;
+    public options?: object;
+    public collapse: HTMLElement|null|undefined;
+    public lockModeBtn: HTMLElement|null|undefined;
+    public pageConfig: HTMLElement|null|undefined;
+    public propsConfig: HTMLElement|null|undefined;
+
+    constructor(root: HTMLElement|string, options?: object) {
 
         this.root = typeof root === 'string' ? document.querySelector(root) : root;
         this.options = options;
@@ -30,14 +37,17 @@ export default class RightPanel {
         this.renderPageConfig();
         this.renderPropsConfig();
 
-        this.collapse = this.root.querySelector('.collapse');
-        this.lockModeBtn = this.root.querySelector('.cons-m');
+        this.collapse = this.root?.querySelector('.collapse');
+        this.lockModeBtn = this.root?.querySelector('.cons-m');
 
-        this.pageConfig = this.root.querySelector('[page-config]');
-        this.propsConfig = this.root.querySelector('[props-interaction-panel]');
+        this.pageConfig = this.root?.querySelector('[page-config]');
+        this.propsConfig = this.root?.querySelector('[props-interaction-panel]');
         this.eventInit()
             .init();
     }
+    public canvasEditorEventManager: any;
+    public pageEventManager: any;
+
     eventInit() {
         this.canvasEditorEventManager = RightPanel.canvasEditorEventManager;
         this.pageEventManager = RightPanel.pageEventManager;
@@ -47,24 +57,25 @@ export default class RightPanel {
         return this;
     }
     init() {
-        this.collapse.addEventListener('click', () => {
-            this.collapse.closest('[right-panel]').classList.toggle('show');
+        this.collapse?.addEventListener('click', () => {
+            (this.collapse?.closest('[right-panel]') as HTMLElement).classList.toggle('show');
             Application.rulerH.resize();
         });
-        this.lockModeBtn.addEventListener('click', () => {
-            this.lockModeBtn.classList.contains('lock')
+        this.lockModeBtn?.addEventListener('click', () => {
+            this.lockModeBtn?.classList.contains('lock')
                 ? this.lockModeBtn.classList.replace('lock', 'unlock')
-                : this.lockModeBtn.classList.replace('unlock', 'lock')
+                : this.lockModeBtn?.classList.replace('unlock', 'lock')
         });
-        this.pageConfig.querySelectorAll('input').forEach(input => {
+        this.pageConfig?.querySelectorAll('input').forEach(input => {
             input.addEventListener('change', this.onChange.bind(this, input));
         });
-        this.propsConfig.querySelectorAll('input').forEach(input => {
+        this.propsConfig?.querySelectorAll('input').forEach(input => {
             input.addEventListener('change', this.onPropsChange.bind(this, input));
         });
     }
-    onChange(target) {
-        let value = target.value;
+    public pageData: any;
+    onChange(target: HTMLInputElement) {
+        let value: any = target.value;
         if (target.name === 'homePage') {
             value = target.checked;
         }
@@ -77,7 +88,8 @@ export default class RightPanel {
             }
         });
     }
-    onPropsChange(target) {
+    public propsData: any;
+    onPropsChange(target: HTMLInputElement) {
         const data = {
             id: this.propsData.id,
             key: target.name,
@@ -95,30 +107,30 @@ export default class RightPanel {
         });
         Log.debug('right panel', `props change ${JSON.stringify(data)}`)
     }
-    updatePropsConfig({data}) {
+    updatePropsConfig({data}: {data: any}) {
         Log.debug('right panel', 'update props config', data);
         this.propsData = data;
         
-        this.propsConfig.querySelector('input[name="$x"]').value = data.compInfo.props['$x'];
-        this.propsConfig.querySelector('input[name="$y"]').value = data.compInfo.props['$y'];
-        this.propsConfig.querySelector('input[name="$width"]').value = data.compInfo.props['$width'];
-        this.propsConfig.querySelector('input[name="$height"]').value = data.compInfo.props['$height'];
-        this.propsConfig.querySelector('input[name="$rotate"]').value = data.compInfo.props['$rotate'];
-        this.propsConfig.querySelector('input[name="$name"]').value = data.compInfo.props['$name'];
+        (this.propsConfig?.querySelector('input[name="$x"]') as HTMLInputElement).value = data.compInfo.props['$x'];
+        (this.propsConfig?.querySelector('input[name="$y"]') as HTMLInputElement).value = data.compInfo.props['$y'];
+        (this.propsConfig?.querySelector('input[name="$width"]') as HTMLInputElement).value = data.compInfo.props['$width'];
+        (this.propsConfig?.querySelector('input[name="$height"]') as HTMLInputElement).value = data.compInfo.props['$height'];
+        (this.propsConfig?.querySelector('input[name="$rotate"]') as HTMLInputElement).value = data.compInfo.props['$rotate'];
+        (this.propsConfig?.querySelector('input[name="$name"]') as HTMLInputElement).value = data.compInfo.props['$name'];
     }
 
-    updatePageConfig({data}) {
+    updatePageConfig({data}: {data: any}) {
         Log.debug('right panel', 'update page config', data);
         this.pageData = data;
-        const bgEl = this.root.querySelector('input[type="color"]');
-        const homeEl = this.root.querySelector('input[type="checkbox"]');
+        const bgEl: any = this.root?.querySelector('input[type="color"]');
+        const homeEl: any = this.root?.querySelector('input[type="checkbox"]');
 
         bgEl.value = data.bgColor;
         homeEl.checked = data.homePage;
     }
 
     renderPageConfig() {
-        this.root.querySelector('[page-config]').innerHTML = `
+        (this.root?.querySelector('[page-config]') as HTMLElement).innerHTML = `
             <div class="settings-title">
                 <div class="label"></div>
             </div>
@@ -167,7 +179,7 @@ export default class RightPanel {
         `;
     }
     renderPropsConfig() {
-        this.root.querySelector('[props-interaction-panel]').innerHTML = `
+        (this.root?.querySelector('[props-interaction-panel]') as HTMLElement).innerHTML = `
             <div class="tabs-nav" tabs-nav>
                 <div class="nav-item">样式</div>
                 <div class="nav-item">交互</div>
@@ -180,13 +192,13 @@ export default class RightPanel {
             </div>
         `;
         this.root
-            .querySelector('[props-interaction-panel]')
-            .querySelector('[style-editing]')
-            .appendChild(StyleEditing.render())
+            ?.querySelector('[props-interaction-panel]')
+            ?.querySelector('[style-editing]')
+            ?.appendChild(StyleEditing.render())
         this.root
-            .querySelector('[props-interaction-panel]')
-            .querySelector('[ux-editing]')
-            .appendChild(UXEditing.render());
+            ?.querySelector('[props-interaction-panel]')
+            ?.querySelector('[ux-editing]')
+            ?.appendChild(UXEditing.render());
         return this;
     }
 }

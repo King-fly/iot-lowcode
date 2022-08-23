@@ -8,21 +8,27 @@ export default class LayerManager {
 
     static ROOT = '[layer-manager]';
 
-    static create(...args) {
+    static create(...args: [Element|string]) {
         return new this(...args);
     }
 
     static loader() {
         return this.create(this.ROOT);
     }
+    
+    public static root: Element;
 
     static resetSelect() {
         this.root
             .querySelectorAll('.selected')
-            .forEach(item => item.classList.remove('selected'));
+            .forEach((item: Element) => item.classList.remove('selected'));
     }
 
-    constructor(root, options = {}) {
+    public root: any;
+    public options: object;
+    public canvasEditorEventManager: any;
+
+    constructor(root: Element|string, options = {}) {
         this.root = typeof root === 'string' ? document.querySelector(root) : root;
         this.options = options;
         this.eventInit()
@@ -36,19 +42,24 @@ export default class LayerManager {
         this.canvasEditorEventManager.on('layerManager:selectLayer', this.selectLayer.bind(this));
         return this;
     }
-    selectLayer({data}) {
+    selectLayer({data}: {data: object}) {
         Log.debug('layerManager', 'select layer', data);
         this
             .layerSelect(this.root.querySelector(`[layer-id="${data}"]`))
             .rightPanelUpdateProsConfig(CanvasEditorCtl.getInstance().selectById(data))
     }
-    addLayer({data}) {
+    addLayer({data}: {
+        data: {
+            compType: string;
+            id: string;
+        }
+    }) {
         Log.debug('layerManager', `add ${data.compType} layer`, data);
-        this.root.querySelectorAll('.layer-item').forEach(layer => layer.classList.remove('selected'));
+        this.root.querySelectorAll('.layer-item').forEach((layer: Element) => layer.classList.remove('selected'));
         this.root.appendChild(this.createLayer(data));
         this.selectPostHandler(data);
     }
-    layerPanelRender({data}) {
+    layerPanelRender({data}: {data: any[]}) {
         Log.debug('layerManager', 'layer panel render', data);
         this.root.innerHTML = data.reduce((cur, prev) => {
             cur.push(this.renderLayer(prev));
@@ -61,7 +72,7 @@ export default class LayerManager {
         });
         this.root.addEventListener('click', this.groupToggle.bind(this), false);
     }
-    layerSelect(target, cb = () => {}) {
+    layerSelect(target: Element, cb = (_?: any) => {}) {
         const groupEl = target.closest('.group');
         const layerEl = target.closest('.layer-item');
 
@@ -77,18 +88,23 @@ export default class LayerManager {
         }
         return this;
     }
-    updateLayerName({data}) {
+    updateLayerName({data}: {
+        data: {
+            id: string;
+            value: string;
+        }
+    }) {
         Log.debug('layer manager', 'update layer name', data);
         this.root.querySelector(`[layer-id=${data.id}]`).querySelector('.pre .a.l').textContent = data.value;
     }
-    selectPostHandler(data) {
+    selectPostHandler(data: object) {
         return this
             .rightPanelUpdateProsConfig(data)
             .workerSpaceSelectLayer(data);
     }
-    rightPanelUpdateProsConfig(data) {
-        document.querySelector('.custom-settings').style.display = 'none';
-        document.querySelector('[props-interaction-panel]').style.display = 'block';
+    rightPanelUpdateProsConfig(data: object) {
+        (document.querySelector('.custom-settings') as any).style.display = 'none';
+        (document.querySelector('[props-interaction-panel]') as any).style.display = 'block';
         this.canvasEditorEventManager
             .trigger({
                 type: 'right-panel:updatePropsConfig',
@@ -100,18 +116,18 @@ export default class LayerManager {
             });
         return this;
     }
-    workerSpaceSelectLayer(data) {
+    workerSpaceSelectLayer(data: object) {
         this.canvasEditorEventManager.trigger({
             type: 'workerspace:selectLayer',
             data
         });
         return this;
     }
-    groupToggle(event) {
+    groupToggle(event: {target: Element;}) {
         const target = event.target;
         this.layerSelect(target, this.selectPostHandler.bind(this));
         if (target.classList.contains('icon')) {
-            target.closest('.group').classList.toggle('close');
+            target.closest('.group')?.classList.toggle('close');
         }
         if (/lock|unlock/.test(target.classList.value)) {
             target.classList.contains('lock')
@@ -124,7 +140,10 @@ export default class LayerManager {
                 : target.classList.replace('noeye', 'eye');
         }
     }
-    createLayer(comp) {
+    createLayer(comp: {
+        id: string;
+        compType: string;
+    }) {
         const frag = document.createDocumentFragment();
         const layer = document.createElement('div');
         layer.classList.add('layer-item');
@@ -145,7 +164,10 @@ export default class LayerManager {
         frag.appendChild(layer);
         return frag;
     }
-    renderLayer(comp) {
+    renderLayer(comp: {
+        id: string;
+        compType: string;
+    }) {
         if (comp.compType === 'group') {
             return `
             <div class="layer-item group">

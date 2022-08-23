@@ -4,7 +4,7 @@ import { Log } from '@d/shared/src/utils';
 
 export default class MacroManager {
 
-    static dataSourceManager = DataSourceManager.getInstance();
+    static dataSourceManager: any = DataSourceManager.getInstance();
 
     static macroEventManager = MacroManager.dataSourceManager.eventManager;
 
@@ -29,12 +29,12 @@ export default class MacroManager {
             `
         },
         actions: {
-            ok(root) {
+            ok(root: HTMLElement) {
                 const {id} = root.dataset;
                 MacroManager.macroEventManager.trigger({
                     type: 'macro:macroEdit',
-                    data: [...root.querySelectorAll('input[name="name"],input[name="value"],textarea[name="describe"]')]
-                        .reduce((prev, cur) => ({
+                    data: ([...root.querySelectorAll('input[name="name"],input[name="value"],textarea[name="describe"]')])
+                        .reduce((prev, cur: any) => ({
                             ...prev,
                             [cur.name]: cur.value
                         }), {
@@ -51,7 +51,7 @@ export default class MacroManager {
             body: '删除后，所有赋值该页面变量的组件交互及引用该页面变量的数据源都会出现异常'
         },
         actions: {
-            ok(root) {
+            ok(root: HTMLElement) {
                 MacroManager.macroEventManager.trigger({
                     type: 'macro:macroRemove',
                     data: root.dataset.id
@@ -81,12 +81,12 @@ export default class MacroManager {
             `
         },
         actions: {
-            ok(root) {
+            ok(root: HTMLElement) {
                 MacroManager.macroEventManager
                     .trigger({
                         type: 'macro:macroAdd',
                         data: [...root.querySelectorAll('input[name="name"],input[name="value"],textarea[name="describe"]')]
-                            .reduce((prev, cur) => ({
+                            .reduce((prev, cur: any) => ({
                                 ...prev,
                                 [cur.name]: cur.value
                             }), {})
@@ -97,7 +97,7 @@ export default class MacroManager {
 
     static ROOT = '[macro-manager]';
 
-    static create(...args) {
+    static create(...args: [Element|string, object?]) {
         return new this(...args);
     }
     static loader() {
@@ -106,7 +106,11 @@ export default class MacroManager {
         }).bind(this));
     }
 
-    constructor(root, options = {}) {
+    public root: Element|string|null;
+    public options: object;
+    public data: {}
+
+    constructor(root: Element|string, options = {}) {
         this.root = typeof root === 'string' ? document.querySelector(root) : root;
         this.options = options;
         this.data = {};
@@ -115,13 +119,17 @@ export default class MacroManager {
             .init();
     }
 
+    public macroEventManager: any;
+
     eventInit() {
         this.macroEventManager = MacroManager.macroEventManager;
         this.macroEventManager.on('macroManager:macroReady', this.macroReady.bind(this));
         return this;
     }
 
-    macroReady({data}) {
+    public macroList: any;
+
+    macroReady({data}: {data: any}) {
         Log.debug('macro-manager', 'macroReady', data);
         this.macroList = data;
         return this.render();
@@ -132,7 +140,7 @@ export default class MacroManager {
             type: 'macro:macroListInit'
         });
 
-        this.root.addEventListener('click', (event => {
+        (this.root as HTMLElement).addEventListener('click', ((event: {target: any}) => {
             const target = event.target;
             const eventList = [
                 {
@@ -158,8 +166,8 @@ export default class MacroManager {
         }).bind(this))
     }
 
-    edit(elem) {
-        const data = elem.closest('dd').dataset;
+    edit(elem: HTMLElement) {
+        const data: any = elem.closest('dd')?.dataset;
         MacroManager.editModal
             .show(root => {
                 for (const field of root.querySelectorAll('input[name="name"],input[name="value"],textarea[name="describe"]')) {
@@ -169,8 +177,8 @@ export default class MacroManager {
                 root.dataset.id = data.id;
             });
     }
-    remove(elem) {
-        const {id} = elem.closest('dd').dataset;
+    remove(elem: HTMLElement) {
+        const {id}: any = elem.closest('dd')?.dataset;
         MacroManager.removeModal
             .show(root => {
                 root.dataset.id = id;
@@ -185,9 +193,15 @@ export default class MacroManager {
             });
     }
 
-    template() {
-        const macroList = this.macroList
-            .map(({options: {name, value, describe}, id}) => (`
+    template(_: any) {
+        const macroList = this.macroList.map(({
+            options: {
+                name,
+                value,
+                describe
+            },
+            id
+        }: any) => (`
                 <dd data-id="${id}"
                     data-name="${name}"
                     data-describe="${describe}"
@@ -216,6 +230,6 @@ export default class MacroManager {
         `;
     }
     render() {
-        this.root.innerHTML = this.template(this.data);
+        (this.root as any).innerHTML = this.template(this.data);
     }
 }

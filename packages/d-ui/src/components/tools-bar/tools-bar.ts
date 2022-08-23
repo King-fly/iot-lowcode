@@ -1,12 +1,16 @@
 import CanvasEditorCtl from '@d/editor/src/editor-manager';
 import { DataSourceManager } from '@d/render/src';
+type PageItem = {
+    selected: boolean;
+    id:string;
+}
 export default class Toosbar {
 
     static canvasEditorEventManager = CanvasEditorCtl.CanvasEditorEventManager;
 
     static ROOT = '[tools-bar]';
 
-    static create(...args) {
+    static create(...args: [HTMLElement|string, object?]) {
         return new this(...args);
     }
 
@@ -16,11 +20,16 @@ export default class Toosbar {
         }).bind(this))
     }
 
-    constructor(root, options) {
+    public root: HTMLElement|null;
+    public options?: object;
+
+    constructor(root:HTMLElement|string, options?: object) {
         this.root = typeof root === 'string' ? document.querySelector(root) : root;
         this.options = options;
         this.init();
     }
+
+    public canvasEditorEventManager: any;
 
     eventInit() {
         this.canvasEditorEventManager = Toosbar.canvasEditorEventManager;
@@ -35,7 +44,7 @@ export default class Toosbar {
 
     savePageSchema() {
         const editorCtl = CanvasEditorCtl.getInstance();
-        const pageList = editorCtl.pageManager.pageList;
+        const pageList: PageItem[] = editorCtl.pageManager.pageList;
         const dataSourceList = DataSourceManager.getInstance().dataSourceList;
         const page = pageList.find(page => page.selected === true);
         if (!page) return;
@@ -53,22 +62,28 @@ export default class Toosbar {
         return this;
     }
 
+    public autoSaveEl: any;
+
     renderAutoSave() {
         this.autoSaveEl.innerHTML = `已自动保存 ${(new Date()).toLocaleTimeString()}`;
     }
+
+    public saveBtn: HTMLElement|null|undefined;
+    public previewBtn: HTMLElement|null|undefined;
+    public releaseBtn: HTMLElement|null|undefined;
 
     init() {
         this.render();
         this.eventInit();
 
-        this.autoSaveEl = this.root.querySelector('.auto-save');
-        this.saveBtn = this.root.querySelector('.save-btn');
-        this.previewBtn = this.root.querySelector('.preview-btn');
-        this.releaseBtn = this.root.querySelector('.release-btn');
+        this.autoSaveEl = this.root?.querySelector('.auto-save');
+        this.saveBtn = this.root?.querySelector('.save-btn');
+        this.previewBtn = this.root?.querySelector('.preview-btn');
+        this.releaseBtn = this.root?.querySelector('.release-btn');
 
-        this.saveBtn.addEventListener('click', this.autoSave.bind(this));
-        this.previewBtn.addEventListener('click', this.preview.bind(this));
-        this.releaseBtn.addEventListener('click', this.preview.bind(this));
+        this.saveBtn?.addEventListener('click', this.autoSave.bind(this));
+        this.previewBtn?.addEventListener('click', this.preview.bind(this));
+        this.releaseBtn?.addEventListener('click', this.preview.bind(this));
     }
 
     preview() {
@@ -79,7 +94,7 @@ export default class Toosbar {
     skipPreview() {
         const page = CanvasEditorCtl
             .getInstance().pageManager.pageList
-            .find(page => page.selected === true);
+            .find((page:PageItem) => page.selected === true);
         const bodyData = {
             id: page.id,
             content: window.localStorage.getItem('schema')
@@ -96,7 +111,7 @@ export default class Toosbar {
     }
 
     render() {
-        this.root.innerHTML = `
+        (this.root as HTMLElement).innerHTML = `
             <div class="logo-info">天南星-中控系统</div>
             <div class="middle-operation">
                 <div class="auto-save"></div>

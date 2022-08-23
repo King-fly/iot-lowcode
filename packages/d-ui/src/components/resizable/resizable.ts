@@ -1,18 +1,20 @@
 export default class Resizable {
 
-    static create(...args) {
+    static create(...args: [HTMLElement|string, object?]) {
         return new this(...args);
     }
 
     static loader() {
         document.addEventListener('DOMContentLoaded', (() => {
             document.querySelectorAll('[resizable]').forEach(elem => {
-                this.create(elem);
+                this.create(elem as HTMLElement);
             });
         }).bind(this));
     }
 
-    constructor(root) {
+    public root: HTMLElement|null;
+
+    constructor(root: HTMLElement|string, _?: object) {
         this.root = typeof root === 'string' ? document.querySelector(root) : root;
     }
 

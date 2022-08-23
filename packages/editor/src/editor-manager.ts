@@ -54,13 +54,13 @@ export default class CanvasEditorManager {
         }
     };
 
-    static getInstance(...args: [object]) {
+    static getInstance(...args: [object?]): any {
         if (!this.canvasEditorInstance) {
             this.canvasEditorInstance = CanvasEditorManager.create(...args);
         }
         return this.canvasEditorInstance;
     }
-    static create(...args: [object]) {
+    static create(...args: [object?]) {
         return new this(...args);
     }
     public eventManager: any;
@@ -78,7 +78,7 @@ export default class CanvasEditorManager {
         move: (_: object) => {};
     };
 
-    constructor(pageList: object) {
+    constructor(pageList?: object) {
         this.eventManager = CanvasEditorManager.CanvasEditorEventManager;
         this.pageManager = PageManager.getInstance(pageList);
         // @ts-ignore
