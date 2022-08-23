@@ -1,9 +1,9 @@
-import bodyParser from 'body-parser';
-import express from 'express';
-import path from 'path';
-import { build, updateSchema, getSchemaById } from './bin';
+const bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const { build, updateSchema, getSchemaById } = require('./bin');
 
-let server: any;
+let server;
 
 function serverPlugin() {
     return {
@@ -59,6 +59,6 @@ function serverPlugin() {
     };
 }
 
-export {
+module.exports = {
     serverPlugin
 };

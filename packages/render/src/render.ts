@@ -12,88 +12,41 @@ import {
     InterfaceHandler
 } from './datasource-manager';
 
-import { ActionOptions, ConditionOptions} from './interaction-manager';
-
-type Node = {
-    id: string;
-    selected: boolean;
-    locked: boolean;
-    compType: string;
-    children: [object];
-    dataSource?: {
-        type: string;
-        id: string;
-        dataHandler: object[];
-        options?: any;
-    }[];
-    filter?: {
-        type: string;
-        id: string;
-        source: string;
-    }[]
-}
-
 class Render {
-    public SCHEMA_VISITOR?: {
-        [key: string]: object;
+    static nodeFindReplace(node: any, parent: any, instance: any) {
+        parent.children.splice(parent.children.findIndex((child: any) => child === node), 1, instance);
     }
-    static nodeFindReplace(node: object, parent: {children: object[]}, instance: object) {
-        parent.children.splice(parent.children.findIndex(child => child === node), 1, instance);
-    }
-    static SCHEMA_VISITOR = {
-        __common(node: {
-            compType: string;
-            id: string;
-            selected: boolean;
-            locked: boolean;
-            compInfo: {
-                props: object;
-                interactions: {
-                    id: string;
-                    trigger: string;
-                    actions?: ActionOptions[];
-                    conditions?: ConditionOptions[];
-                }[]
-            }
-        }, parent: object) {
+    static SCHEMA_VISITOR: any = {
+        __common(node: any, parent: any) {
             const {selected, locked, compInfo: {props, interactions}} = node;
-            const comp: {
-                compInfo: {
-                    interactions?: object[]
-                }
-            } = Layer
-                .create({
-                    compType: node.compType,
-                    id: node.id,
-                    selected,
-                    locked,
-                    props
-                });
-            comp.compInfo.interactions = interactions?.reduce((prev, cur) => {
+            const comp = Layer.create({
+                compType: node.compType,
+                id: node.id,
+                selected,
+                locked,
+                props
+            });
+            comp.compInfo.interactions = interactions?.reduce((prev: any, cur: any) => {
                 const {id, trigger} = cur;
                 const interaction = Interaction.create({
                     id,
                     trigger
                 });
-                interaction.actions = cur?.actions?.reduce((preAct, act) => {
-                    // @ts-ignore
+                interaction.actions = cur?.actions?.reduce((preAct: any, act: any) => {
                     preAct.push(Action.create(act));
                     return preAct;
                 }, []) || [];
-                interaction.conditions = cur?.conditions?.reduce((preCond, cond) => {
-                    // @ts-ignore
+                interaction.conditions = cur?.conditions?.reduce((preCond: any, cond: any) => {
                     preCond.push(Condition.create(cond));
                     return preCond;
                 }, []) || [];
-                // @ts-ignore
                 prev.push(interaction);
                 return prev;
             }, []) || [];
-            // @ts-ignore
             Render.nodeFindReplace(node, parent, comp);
             return true;
         },
-        group(node: Node, parent: {children: object[]}) {
+        group(node: any, parent: any) {
             const {id, selected, locked, compType, children} = node;
             parent && Render.nodeFindReplace(node, parent, Layer.create({
                 compType,
@@ -104,27 +57,23 @@ class Render {
             }));
             return true;
         },
-        page(node: Node) {
-            // @ts-ignore
+        page(node: any) {
             node.filter = DataSourceManager.FILTER_LIST = node.filter
-                .reduce((prev, {type, id, source}) => {
-                    // @ts-ignore
+                .reduce((prev: any, {type, id, source}: any) => {
                     prev.push(FilterManager
                         .getFilter(type)
-                        // @ts-ignore
                         .create({id, source}));
                     return prev;
             }, []);
-            node.dataSource = DataSourceManager.getInstance().dataSourceList = node.dataSource?.reduce(
-                (prev, cur) => {
-                    // @ts-ignore
+            node.dataSource = DataSourceManager.getInstance().dataSourceList = node.dataSource.reduce(
+                (prev: any, cur: any) => {
                     prev.push(DataSourceManager
                         .getDataSource(cur.type)
                         .create({
                             ...cur.options,
                             id: cur.id
                         })
-                        .setDataHandler?.(cur.dataHandler.reduce((prev: any[], cur) => {
+                        .setDataHandler?.(cur.dataHandler.reduce((prev: any, cur: any) => {
                             prev.push(InterfaceHandler.create(cur))
                             return prev;
                         }, [])) ?? DataSourceManager
@@ -138,26 +87,24 @@ class Render {
             return true;
         }
     }
-    static create() {
-        return new this();
+    static create(...args: []) {
+        return new this(...args);
     }
-    static renderInstance: object;
+    static renderInstance: any;
 
-    static getInstance() {
+    static getInstance(...args: []) {
         if (!this.renderInstance) {
-            this.renderInstance = this.create();
+            this.renderInstance = this.create(...args);
         }
         return this.renderInstance;
     }
+    public components: any;
+    public SCHEMA_DSL: any;
     constructor() {
         this.components = {};
     }
-    public components: {
-        [key: string]: boolean;
-    };
-    public SCHEMA_DSL?: any;
-    fetchPageSchemaDSL(schema: object) {
-        this.SCHEMA_DSL = schema || {};
+    fetchPageSchemaDSL(schema: any) {
+        this.SCHEMA_DSL = schema
         return this;
     }
     getPageComponents() {
@@ -165,10 +112,9 @@ class Render {
         return this;
     }
     traverse() {
-        const traverseNode = (node: Node, parent?: {children: object[]}) => {
+        const traverseNode = (node: any, parent?: any) => {
             if (!node) return;
             this.components[node.compType] = true;
-            // @ts-ignore
             Render.SCHEMA_VISITOR[node.compType]?.(node, parent) ?? Render.SCHEMA_VISITOR?.__common(node, parent);
             /group|page/.test(node.compType) && node.children
                 .forEach((child: any) => traverseNode(child, node));

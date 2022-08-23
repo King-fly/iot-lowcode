@@ -57,7 +57,7 @@ class FilterManager {
         this.FILTER_MAP[filter.FILTER_TYPE] = filter
         return this;
     }
-    static getFilter(name: string) {
+    static getFilter(name: string): any {
         return this.FILTER_MAP[name];
     }
 }

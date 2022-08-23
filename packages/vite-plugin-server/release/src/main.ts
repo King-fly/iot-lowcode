@@ -1,29 +1,32 @@
-import {Render} from '../../../render/src';
+import {Render} from '@d/render/src';
 
 
 class Application {
     static ROOT = '#app';
 
-    static create(...args) {
+    static create(...args: [string]) {
         return new this(...args);
     }
     static loader() {
         this.create(this.ROOT);
     }
-    constructor(root, options = {}) {
+    public root: any;
+    public options: object;
+
+    constructor(root: string | Element, options = {}) {
         this.root = typeof root === 'string' ? document.querySelector(root) : root;
         this.options = options;
 
         this.init();
     }
     init() {
-        this.fetchSchema(({page, compList}) => {
+        this.fetchSchema(({page, compList}: any) => {
             this.initPage(page);
             this.renderPage(compList);
         });
     }
-    renderPage(compList) {
-        this.root.innerHTML = compList.map(comp => {
+    renderPage(compList: any) {
+        this.root.innerHTML = compList.map((comp: any) => {
             const props = comp.compInfo.props;
             return `
             <div style="
@@ -36,7 +39,7 @@ class Application {
             "></div>`;
         }).join('');
     }
-    initPage(data) {
+    initPage(data: {bgColor: string;}) {
         this.root.style = `
             position: relative;
             width: 1000px;
@@ -44,14 +47,17 @@ class Application {
             background-color: ${data.bgColor};
         `;
     }
-    fetchSchema(callback) {
-        const params = new Proxy(new URLSearchParams(window.location.search), {
-            get: (searchParams, prop) => searchParams.get(prop),
+    fetchSchema(callback: (_: any) => void) {
+        const params: any = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop: string) => searchParams.get(prop),
         });
         fetch(`/api/schemas?id=${params.page}`)
             .then(res => res.json())
             .then(data => {
-                const {pageList, schema} = JSON.parse(data);
+                const {pageList, schema}: {
+                    pageList: {id: string;page: object}[];
+                    schema: any;
+                } = JSON.parse(data);
                 const page = pageList.find(item => item.id === params.page);
                 const {children} = Render.getInstance().fetchPageSchemaDSL(schema).transformer();
                 callback({

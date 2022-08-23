@@ -2,7 +2,7 @@
   "name": "@d/vite-plugin-server",
   "version": "0.0.0",
   "description": "",
-  "main": "src/index.ts",
+  "main": "src/index.js",
   "scripts": {
     "test": "jest"
   },
@@ -20,6 +20,7 @@
   "dependencies": {
     "@types/body-parser": "^1.19.2",
     "@types/express": "^4.17.13",
-    "@types/shelljs": "^0.8.11"
+    "@types/shelljs": "^0.8.11",
+    "vite-plugin-html": "^3.2.0"
   }
 }
