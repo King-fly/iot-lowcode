@@ -1,1 +1,1 @@
-# 协议规范
+# Schema Spec
