@@ -1,1 +1,1 @@
-# vite 插件
+# vite server plugin
