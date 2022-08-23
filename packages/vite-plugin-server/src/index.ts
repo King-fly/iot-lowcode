@@ -3,7 +3,7 @@ import express from 'express';
 import path from 'path';
 import { build, updateSchema, getSchemaById } from './bin';
 
-let server;
+let server: any;
 
 function serverPlugin() {
     return {

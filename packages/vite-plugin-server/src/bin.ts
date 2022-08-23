@@ -17,7 +17,7 @@ export async function build() {
     console.log('vite-plugin-server', 'build success');
 };
 
-export async function updateSchema(data) {
+export async function updateSchema(data: {id: string; content: string}) {
     try {
         const DB_DIR = path.join(__dirname, '../release/db');
         const pageId = data.id;
@@ -26,19 +26,19 @@ export async function updateSchema(data) {
         const writeFile = path.join(__dirname, `../release/db/schema_${pageId}`);
         await asyncWriteFile(writeFile, content);
     }
-    catch(error) {
+    catch(error: any) {
         console.log(`update schema error: ${error.code}, message: ${error.message}`);
     }
 }
 
-export async function getSchemaById(data) {
+export async function getSchemaById(data: {id: string}) {
     try {
         const pageId = data.id;
         const file = path.join(__dirname, `../release/db/schema_${pageId}`);
         const res = await asyncReadFile(file, 'utf8');
         return res;
     }
-    catch(error) {
+    catch(error: any) {
         console.log(`get schema by id error: ${error.code}, message: ${error.message}`);
         return {};
     }
