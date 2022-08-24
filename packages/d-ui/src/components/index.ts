@@ -17,3 +17,4 @@ export * from './tabs';
 export * from './tools-bar';
 export * from './ux-editing';
 export * from './workerspace';
+export * from './pre-loading';
