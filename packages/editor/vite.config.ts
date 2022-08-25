@@ -4,10 +4,17 @@ import {
     // @ts-ignore
 } from '@d/vite-plugin-server';
 
+import vue from '@vitejs/plugin-vue';
+
 export default defineConfig({
-    plugins: [serverPlugin()],
+    plugins: [vue(), serverPlugin()],
     build: {
         minify: true
+    },
+    resolve: {
+        alias: {
+            vue: 'vue/dist/vue.esm-bundler.js'
+        }
     },
     server: {
         proxy: {
