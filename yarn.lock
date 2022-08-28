@@ -7248,7 +7248,7 @@ verror@1.10.0:
 
 vite-plugin-html@^3.2.0:
   version "3.2.0"
-  resolved "http://dm.digibird.com.cn:8085/vite-plugin-html/-/vite-plugin-html-3.2.0.tgz#0d4df9900642a321a139f1c25c05195ba9d0ec79"
+  resolved "https://registry.npmmirror.com/vite-plugin-html/-/vite-plugin-html-3.2.0.tgz#0d4df9900642a321a139f1c25c05195ba9d0ec79"
   integrity sha512-2VLCeDiHmV/BqqNn5h2V+4280KRgQzCFN47cst3WiNK848klESPQnzuC3okH5XHtgwHH/6s1Ho/YV6yIO0pgoQ==
   dependencies:
     "@rollup/pluginutils" "^4.2.0"

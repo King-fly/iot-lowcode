@@ -1,4 +1,6 @@
 import {defineConfig} from 'vite';
+import {createHtmlPlugin} from 'vite-plugin-html';
+
 import {
     serverPlugin
     // @ts-ignore
@@ -7,7 +9,9 @@ import {
 import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
-    plugins: [vue(), serverPlugin()],
+    plugins: [vue(), serverPlugin(), createHtmlPlugin({
+        minify: true
+    })],
     build: {
         minify: true
     },

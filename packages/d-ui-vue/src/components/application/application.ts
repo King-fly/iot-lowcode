@@ -2,6 +2,9 @@ import {createApp} from 'vue';
 import { createComponent } from '../../utils';
 import 'element-plus/dist/index.css';
 import ElementPlus from 'element-plus';
+import PreLoading from '../pre-loading';
+import '../workerspace';
+import '../tools-bar';
 
 const AppComp = createComponent({
     name: 'application-box',
@@ -138,13 +141,58 @@ const AppComp = createComponent({
         </div>
     </div>
     `
-})
+});
 
 export default class Application {
-    static loader() {
+
+    public static rulerH: {resize: () => void};
+    public static rulerV: {resize: () => void};
+
+    static preProcess() {
+        PreLoading.loader();
+        return this;
+    }
+    static postProcess() {
+        window.addEventListener('load', () => {
+            PreLoading.unloader();
+            window.dispatchEvent(new Event('resize'));
+            Application.rulerInit();
+        });
+        return this;
+    }
+    static vueLoader() {
         const app = createApp(AppComp);
 
         app.use(ElementPlus);
         app.mount('#app');
+        return this;
+    }
+
+    static rulerInit() {
+
+        // @ts-ignore
+        this.rulerH = new Ruler(document.querySelector('.ruler-horizontal'), {
+            type: 'horizontal',
+            backgroundColor: '#dedede',
+            textColor: 'black'
+        });
+
+        // @ts-ignore
+        this.rulerV = new Ruler(document.querySelector('.ruler-vertical'), {
+            type: 'vertical',
+            backgroundColor: '#dedede',
+            textColor: 'black'
+        });
+
+        window.addEventListener('resize', this.rulerResize.bind(this));
+    }
+    static rulerResize() {
+        this.rulerH.resize();
+        this.rulerV.resize();
+    }
+    static loader() {
+        this.preProcess()
+            .vueLoader()
+            .postProcess();
     }
 }

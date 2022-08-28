@@ -1,0 +1,80 @@
+[tools-bar] {
+    display         : flex;
+    background-color: white;
+    height          : var(--tools-bar-height);
+    width           : 100%;
+    line-height     : var(--tools-bar-height);
+    border-bottom   : solid 1px var(--border-silver-color);
+}
+
+[tools-bar] .logo-info {
+    width      : 240px;
+    font-weight: bolder;
+    margin-left: 30px;
+    font-size  : 14px;
+}
+
+[tools-bar] .middle-operation {
+    position       : relative;
+    width          : calc(100% - 540px);
+    min-width      : 240px;
+    display        : flex;
+    flex-direction : row;
+    align-items    : center;
+    justify-content: flex-end;
+}
+
+[tools-bar] .middle-operation::after {
+    content : '';
+    border  : solid 1px #e5e5e5;
+    height  : 30px;
+    position: absolute;
+    top     : 10px;
+    right   : 0;
+}
+
+[tools-bar] .middle-operation>div {
+    margin-right: 30px;
+}
+
+[tools-bar] .middle-operation .back,
+[tools-bar] .middle-operation .forward {
+    width : 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+[tools-bar] .middle-operation .back {
+    background: url(/assets/do_back.svg);
+}
+
+[tools-bar] .middle-operation .forward {
+    background: url(/assets/do_forward.svg);
+}
+
+[tools-bar] .right-operation {
+    width          : 270px;
+    display        : flex;
+    flex-direction : row;
+    align-items    : center;
+    justify-content: flex-end;
+}
+
+[tools-bar] .right-operation>div {
+    width       : 16px;
+    height      : 16px;
+    cursor      : pointer;
+    margin-right: 30px;
+}
+
+[tools-bar] .right-operation .save-btn {
+    background: url(/assets/save.svg);
+}
+
+[tools-bar] .right-operation .preview-btn {
+    background: url(/assets/preview.svg);
+}
+
+[tools-bar] .right-operation .release-btn {
+    background: url(/assets/release.svg);
+}
