@@ -3,4 +3,4 @@ import {
     markRaw
 } from 'vue';
 
-export const createComponent = (raw: any) => markRaw(defineComponent(raw))
+export const createComponent = (raw: object) => markRaw(defineComponent(raw))
