@@ -4,13 +4,14 @@ import 'element-plus/dist/index.css';
 import ElementPlus from 'element-plus';
 import PreLoading from '../pre-loading';
 import '../workerspace';
-import '../tools-bar';
+import {Toolsbar} from '../tools-bar';
+import {RightPanel} from '../right-panel';
 
 const AppComp = createComponent({
     name: 'application-box',
     template: `
     <div class="application">
-        <div tools-bar></div>
+        <tools-bar></tools-bar>
         <div class="box">
             <div left-panel role="d-nav-tab" class="show">
                 <div class="collapse"><div class="mark"></div></div>
@@ -131,13 +132,7 @@ const AppComp = createComponent({
                     <div class="state-item"><input type="checkbox" checked><div class="label">网格</div></div>
                 </div>
             </div>
-            <div right-panel props-tabs-nav class="show">
-                <div class="collapse"><div class="mark"></div></div>
-                <div class="prop-container-wrapper">
-                    <div class="custom-settings" page-config></div>
-                    <div role="d-tabs" props-interaction-panel></div>
-                </div>
-            </div>
+            <right-panel></right-panel>
         </div>
     </div>
     `
@@ -164,6 +159,8 @@ export default class Application {
         const app = createApp(AppComp);
 
         app.use(ElementPlus);
+        app.component('tools-bar', Toolsbar);
+        app.component('right-panel', RightPanel);
         app.mount('#app');
         return this;
     }

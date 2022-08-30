@@ -1,4 +1,4 @@
-[right-panel] {
+.right-panel {
     --thumbnail-default-bg: #0070cc;
 
     width           : 0;
@@ -8,24 +8,24 @@
     position        : relative;
 }
 
-[right-panel].show {
+.right-panel.show {
     min-width: 270px;
 }
 
-[right-panel].show .prop-container-wrapper {
+.right-panel.show .prop-container-wrapper {
     display: block;
 }
 
-[right-panel] .prop-container-wrapper {
+.right-panel .prop-container-wrapper {
     display: none;
     height: 100%;
 }
 
-[right-panel].show .collapse .mark::before {
+.right-panel.show .collapse .mark::before {
     content: ">";
 }
 
-[right-panel] .collapse .mark::before {
+.right-panel .collapse .mark::before {
     position: absolute;
     top     : -2px;
     left    : 0;
@@ -33,14 +33,14 @@
     content : "<";
 }
 
-[right-panel] .collapse .mark {
+.right-panel .collapse .mark {
     border  : solid 1px var(--border-silver-color);
     position: relative;
     width   : 100%;
     height  : 100%;
 }
 
-[right-panel] .collapse {
+.right-panel .collapse {
     width      : 12px;
     height     : 30px;
     position   : absolute;
@@ -53,18 +53,18 @@
     cursor     : pointer;
 }
 
-[right-panel] .custom-settings .settings-title {
+.right-panel .custom-settings .settings-title {
     height       : 36px;
     line-height  : 36px;
     text-align   : center;
     border-bottom: solid 1px var(--border-silver-color);
 }
 
-[right-panel] .custom-settings .settings-content {
+.right-panel .custom-settings .settings-content {
     border-bottom: solid 1px var(--border-silver-color);
 }
 
-[right-panel] .custom-settings .settings-content .settings-item {
+.right-panel .custom-settings .settings-content .settings-item {
     padding       : 5px 10px;
     display       : flex;
     flex-direction: row;
@@ -72,21 +72,21 @@
     line-height   : 36px;
 }
 
-[right-panel] .custom-settings .settings-content .settings-item .setter-prop {
+.right-panel .custom-settings .settings-content .settings-item .setter-prop {
     width: 30%;
 }
 
-[right-panel] .custom-settings .settings-content .settings-item .setter-val {
+.right-panel .custom-settings .settings-content .settings-item .setter-val {
     width: 70%;
 }
 
-[right-panel] .custom-settings .settings-content .settings-item .setter-prop.img {
+.right-panel .custom-settings .settings-content .settings-item .setter-prop.img {
     width: 100%;
     display: flex;
 }
 
 
-[right-panel] [props-interaction-panel] {
+.right-panel [props-interaction-panel] {
     display: none;
 }
 
