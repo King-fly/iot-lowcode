@@ -1,21 +1,21 @@
-[left-panel] {
+.left-panel {
   position: relative;
   width   : 44px !important;
 }
 
-[left-panel].show [nav-tab="content"] {
+.left-panel.show [nav-tab="content"] {
   display: flex !important;
 }
 
-[left-panel].show {
+.left-panel.show {
   width: 270px !important;
 }
 
-[left-panel] [nav-tab="content"] {
+.left-panel [nav-tab="content"] {
   display: none !important;
 }
 
-[left-panel] .collapse {
+.left-panel .collapse {
   width      : 12px;
   height     : 30px;
   position   : absolute;
@@ -28,11 +28,11 @@
   cursor     : pointer;
 }
 
-[left-panel].show .collapse .mark::before {
+.left-panel.show .collapse .mark::before {
   content: "<";
 }
 
-[left-panel] .collapse .mark::before {
+.left-panel .collapse .mark::before {
   position: absolute;
   top: -2px;
   left: 0;
@@ -40,29 +40,29 @@
   content: ">";
 }
 
-[left-panel] .collapse .mark {
+.left-panel .collapse .mark {
   border: solid 1px var(--border-silver-color);
   position: relative;
   width   : 100%;
   height  : 100%;
 }
 
-[left-panel] .component-panel {
+.left-panel .component-panel {
   width: 100%;
   height: 100%;
 }
 
-[left-panel] .component-panel .component-content {
+.left-panel .component-panel .component-content {
   overflow-y: auto;
   height: calc(100% - 36px);
 }
 
-[left-panel] .component-panel .component-nav {
+.left-panel .component-panel .component-nav {
   line-height: 37px;
   text-indent: 15px;
 }
 
-[left-panel] .component-panel .component-nav .icon {
+.left-panel .component-panel .component-nav .icon {
   margin-right: var(--m-md);
   float       : right;
   cursor      : pointer;
@@ -73,12 +73,12 @@
 }
 
 
-[left-panel] .component-panel [panel-content] .sub-content {
+.left-panel .component-panel [panel-content] .sub-content {
   display  : flex;
   flex-wrap: wrap;
 }
 
-[left-panel] .component-panel [panel-content] .sub-content .comp-item {
+.left-panel .component-panel [panel-content] .sub-content .comp-item {
   width        : calc(50% - 10px);
   margin       : var(--m-xm);
   display      : flex;
@@ -88,22 +88,22 @@
   line-height: 16px;
 }
 
-[left-panel] .component-panel [panel-content] .sub-content .comp-item .icon {
+.left-panel .component-panel [panel-content] .sub-content .comp-item .icon {
   width : 16px;
   height: 16px;
 }
 
-[left-panel] .component-panel [panel-content] .sub-content [comp-name="text"] .icon {
+.left-panel .component-panel [panel-content] .sub-content [comp-name="text"] .icon {
   background: center url(/assets/text.svg) no-repeat!important;
 }
-[left-panel] .component-panel [panel-content] .sub-content [comp-name="image"] .icon {
+.left-panel .component-panel [panel-content] .sub-content [comp-name="image"] .icon {
   background: center url(/assets/image.svg) no-repeat!important;
 }
-[left-panel] .component-panel [panel-content] .sub-content .comp-item .icon {
+.left-panel .component-panel [panel-content] .sub-content .comp-item .icon {
   background: center url(/assets/component.svg) no-repeat;
 }
 
-[left-panel] .component-panel [panel-content] .sub-content .comp-item .info {
+.left-panel .component-panel [panel-content] .sub-content .comp-item .info {
   width     : calc(100% - 26px);
   overflow: hidden;
   text-overflow: ellipsis;

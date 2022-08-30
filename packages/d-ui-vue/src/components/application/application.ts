@@ -4,8 +4,10 @@ import 'element-plus/dist/index.css';
 import ElementPlus from 'element-plus';
 import PreLoading from '../pre-loading';
 import '../workerspace';
+
 import {Toolsbar} from '../tools-bar';
 import {RightPanel} from '../right-panel';
+import {WorkerSpace} from '../workerspace';
 
 const AppComp = createComponent({
     name: 'application-box',
@@ -13,7 +15,7 @@ const AppComp = createComponent({
     <div class="application">
         <tools-bar></tools-bar>
         <div class="box">
-            <div left-panel role="d-nav-tab" class="show">
+            <div class="show left-panel nav-tab">
                 <div class="collapse"><div class="mark"></div></div>
                 <div class="nav-v-wrapper" nav-tab="nav">
                     <div class="nav-item"><div class="i page"></div></div>
@@ -115,23 +117,7 @@ const AppComp = createComponent({
                     </div>
                 </div>
             </div>
-            <div workerspace>
-                <div class="worker-wrapper">
-                    <div class="worker-container">
-                        <div class="worker-content"></div>
-                    </div>
-                    <div class="rule-wrapper">
-                        <div class="ruler-horizontal"></div>
-                        <div class="ruler-vertical"></div>
-                    </div>
-                </div>
-                <div class="worker-bar">
-                    <div class="state-item">视图</div>
-                    <div class="state-item"><input type="checkbox" checked><div class="label">标尺</div></div>
-                    <div class="state-item"><input type="checkbox" checked><div class="label">参考线</div></div>
-                    <div class="state-item"><input type="checkbox" checked><div class="label">网格</div></div>
-                </div>
-            </div>
+            <worker-space></worker-space>
             <right-panel></right-panel>
         </div>
     </div>
@@ -161,6 +147,8 @@ export default class Application {
         app.use(ElementPlus);
         app.component('tools-bar', Toolsbar);
         app.component('right-panel', RightPanel);
+        app.component('worker-space', WorkerSpace);
+
         app.mount('#app');
         return this;
     }

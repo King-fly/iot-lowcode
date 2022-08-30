@@ -1,4 +1,4 @@
-[workerspace] {
+.workerspace {
     flex            : 1;
     background-color: var(--border-silver-color);
     display         : flex;
@@ -7,7 +7,7 @@
     overflow        : hidden;
 }
 
-[workerspace] .worker-content {
+.workerspace .worker-content {
     position        : absolute;
     top             : 0;
     left            : 0;
@@ -16,18 +16,18 @@
     background-color: white;
 }
 
-[workerspace] .worker-content .selected {
+.workerspace .worker-content .selected {
     cursor: move;
     border: solid 1px black;
 }
 
-[workerspace] .worker-wrapper {
+.workerspace .worker-wrapper {
     position  : relative;
     overflow  : hidden;
     min-height: calc(100% - var(--tools-bar-height));
 }
 
-[workerspace] .worker-container {
+.workerspace .worker-container {
     position: absolute;
     width   : calc(100% - 30px);
     height  : calc(100% - 30px);
@@ -35,7 +35,7 @@
     left    : 30px;
 }
 
-[workerspace] .worker-bar {
+.workerspace .worker-bar {
     position        : relative;
     border-top      : solid 1px var(--border-silver-color);
     min-height      : var(--tools-bar-height);
@@ -45,17 +45,17 @@
     padding-left    : 30px;
 }
 
-[workerspace] .worker-bar .state-item {
+.workerspace .worker-bar .state-item {
     margin-right: 30px;
     font-weight : bold;
     display     : inherit;
 }
 
-[workerspace] .worker-bar .state-item .label {
+.workerspace .worker-bar .state-item .label {
     margin-left: 10px;
 }
 
-[workerspace] .ruler-horizontal::before {
+.workerspace .ruler-horizontal::before {
     content   : '';
     display   : inline-block;
     width     : 30px;
@@ -66,7 +66,7 @@
     background: #dedede;
 }
 
-[workerspace] .ruler-horizontal {
+.workerspace .ruler-horizontal {
     cursor  : col-resize;
     position: absolute;
     left    : 30px;
@@ -74,7 +74,7 @@
     width   : calc(100% - 30px);
 }
 
-[workerspace] .ruler-vertical {
+.workerspace .ruler-vertical {
     cursor  : row-resize;
     position: absolute;
     top     : 30px;
