@@ -1,0 +1,107 @@
+[macro-manager] {
+    padding   : var(--p-xm);
+    border-top: solid 1px #c0c0c0;
+}
+
+[macro-manager] dl {
+    display       : flex;
+    flex-direction: column;
+    text-align    : center;
+    border        : solid 1px var(--border-silver-color);
+    border-bottom : none;
+}
+
+[macro-manager] dt,
+[macro-manager] dd {
+    height        : 36px;
+    line-height   : 36px;
+    display       : flex;
+    flex-direction: row;
+}
+
+
+[macro-manager] dt div,
+[macro-manager] dd div {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+[macro-manager] dt {
+    background-color: var(--title-bg-color);
+}
+
+[macro-manager] dd {
+    justify-content: center;
+    border-bottom: solid 1px var(--border-silver-color);
+}
+
+[macro-manager] .name {
+    width: 30%;
+}
+
+[macro-manager] .desc {
+    width: 20%;
+}
+
+[macro-manager] .dv {
+    width: 20%;
+}
+
+[macro-manager] .action {
+    width          : 30%;
+    display        : flex;
+    flex-direction : row;
+    justify-content: space-around;
+}
+
+[macro-manager] .action .edit-btn {
+    color : var(--handle-color);
+    cursor: pointer;
+}
+
+[macro-manager] .action .del-btn {
+    color : var(--handle-color);
+    cursor: pointer;
+}
+
+[macro-manager] .add-macro-btn {
+    border     : solid 1px var(--border-silver-color);
+    text-align : center;
+    margin     : 20px 0px 0;
+    height     : 32px;
+    line-height: 32px;
+    cursor     : pointer;
+}
+
+[macro-manager] .add-macro-btn:hover {
+    border          : solid 1px black;
+    background-color: var(--border-silver-color);
+}
+
+
+[macro-form] {
+    display: flex;
+    flex-direction: column;
+}
+
+[macro-form] .field {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+[macro-form] .field .value > input{
+    display: inline-block;
+    width: 280px;
+    height: 24px;
+    line-height: 24px;
+}
+[macro-form] .field .value > textarea{
+    display: inline-block;
+    width: 280px;
+    max-height: 107px;
+    resize: vertical;
+    overflow-y: hidden;
+}

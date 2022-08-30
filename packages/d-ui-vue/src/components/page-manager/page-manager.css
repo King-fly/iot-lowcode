@@ -1,0 +1,61 @@
+[page-manager] {
+    height: 100%;
+}
+[page-manager] [collapse-content].sub-content {
+    overflow-y: auto;
+    height: calc(100% - 38px);
+}
+[page-manager] .sub-content .page-item {
+    position: relative;
+    display: flex;
+    line-height: 36px;
+    text-indent: 50px;
+    height     : 36px;
+}
+
+[page-manager] .sub-content .page-item .actions {
+    display: flex;
+    width: 40%;
+    height: 36px;
+    position: absolute;
+    right: 0;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+[page-manager] .sub-content .page-item .actions .icon {
+    width: 16px;
+    height: 16px;
+    background-color: black;
+    cursor: pointer;
+}
+
+[page-manager] .sub-content .page-item .actions .icon.edit {
+    -webkit-mask-image: url(/assets/edit.svg);
+    mask-image: url(/assets/edit.svg);
+}
+
+[page-manager] .sub-content .page-item .actions .icon.delete {
+    -webkit-mask-image: url(/assets/delete.svg);
+    mask-image: url(/assets/delete.svg);
+}
+
+[page-manager] .sub-title .icon {
+    font-size   : 20px;
+    float       : right;
+    margin-right: var(--m-md);
+    text-indent : 0;
+    cursor      : pointer;
+}
+
+[page-manager] .sub-content .page-item:hover {
+    background-color: #e3e3e3;
+}
+
+[page-manager] .sub-content .page-item.active {
+    color           : white;
+    background-color: var(--handle-color);
+}
+[page-manager] .sub-content .page-item.active .icon {
+    background-color: white;
+}

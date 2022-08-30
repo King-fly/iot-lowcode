@@ -6,3 +6,8 @@ export * from './left-panel';
 export * from './right-panel';
 export * from './tabs';
 export * from './nav-tab';
+export * from './page-manager';
+export * from './collapse';
+export * from './component-manager';
+export * from './src-manager';
+export * from './macro-manager';
